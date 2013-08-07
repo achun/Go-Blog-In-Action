@@ -23,6 +23,8 @@ Blog 系统属于非常典型的 WEB 应用. 通常开发者都会首先考虑�
 	- [gosexy/db][9] 修改版本 [achun/db][10]
 * 日志支持
 	- [uniqush/log][17] 妙不可言的日志实现, 修改版本 [achun/log][18]
+* sessions
+	- [gorilla/sessions][19] 内建支持`cookies`,`filesystem`,可扩展
 * template 模板
 	- 好吧除了官方包暂时没有更合适的选择
 * 提交验证
@@ -96,6 +98,8 @@ log:=MultiLogger(logMail, logFile)
 2. 给Logger增加 Flags 字段, 以便设置 log 格式.默认为官方包 `log.LstdFlags`
 
 当然这不是必须的.
+### session
+[gorilla/session][19] 本身很简单. 这里已经提及 [gorillatoolkit][20] 两个工具了. 事实是不止两个, 这两个工具内部还使用了 [gorillatoolkit][20] 其他的工具. [Gorilla web toolkit][21] 这篇博客里简单介绍了几个. 这些都会被用到开发中.
 
 船小好调头
 =========
@@ -107,7 +111,7 @@ log:=MultiLogger(logMail, logFile)
 [3]: https://github.com/achun/go-toml/blob/master/README_CN.md
 [4]: https://github.com/braintree/manners
 [5]: http://my.oschina.net/achun/blog/150211
-[6]: http://my.oschina.net/achun/blog/149518#OSC_h2_4
+[6]: https://github.com/gorilla/sessions
 [7]: https://github.com/gorilla/mux
 [8]: http://www.gorillatoolkit.org/pkg/mux
 [9]: https://github.com/gosexy/db
@@ -120,3 +124,6 @@ log:=MultiLogger(logMail, logFile)
 [16]: https://menteslibres.net/gosexy/db
 [17]: https://github.com/uniqush/log
 [18]: https://github.com/achun/log
+[19]: https://github.com/gorilla/sessions
+[20]: http://www.gorillatoolkit.org/pkg/
+[21]: http://my.oschina.net/achun/blog/149518
