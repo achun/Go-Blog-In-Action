@@ -14,8 +14,10 @@ Go语言博客实践
 	* 第1节：[永远的MVC](Chapter02.md#永远的mvc)
 	* 第2节：[目录规划](Chapter02.md#目录规划)
 * 第3章: [面向对象的编程](Chapter03.md)
-	* 第1节：[OOP](Chapter03.md#OOP)
-	* 第2节：[复合之外](Chapter03.md#复合之外)
+	* 第1节：[OOP](Chapter03.md#oop)
+	* 第2节：[闭包](Chapter03.md#闭包)
+	* 第3节：[构造函数](Chapter03.md#构造函数)
+	* 第4节：[谁知道呢](Chapter03.md#谁知道呢)
 
 授权许可
 =======
