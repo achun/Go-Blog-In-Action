@@ -12,7 +12,10 @@ Go语言博客实践
 	* 第2节：[工具链选择与修改](Chapter01.md#工具链选择与修改)
 * 第2章: [MVC](Chapter02.md)
 	* 第1节：[永远的MVC](Chapter02.md#永远的MVC)
-	* 第2节：[子目录规划](Chapter02.md#子目录规划)
+	* 第2节：[目录规划](Chapter02.md#目录规划)
+* 第3章: [面向对象的编程](Chapter03.md)
+	* 第1节：[OOP](Chapter03.md#OOP)
+	* 第2节：[复合之外](Chapter03.md#复合之外)
 
 授权许可
 =======
