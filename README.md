@@ -11,7 +11,7 @@ Go语言博客实践
 	* 第1节：[为什么](Chapter01.md#为什么)
 	* 第2节：[工具链选择与修改](Chapter01.md#工具链选择与修改)
 * 第2章: [MVC](Chapter02.md)
-	* 第1节：[永远的MVC](Chapter02.md#永远的MVC)
+	* 第1节：[永远的MVC](Chapter02.md#永远的mvc)
 	* 第2节：[目录规划](Chapter02.md#目录规划)
 * 第3章: [面向对象的编程](Chapter03.md)
 	* 第1节：[OOP](Chapter03.md#OOP)
