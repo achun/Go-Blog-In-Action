@@ -18,7 +18,11 @@ Go语言博客实践
 	* 第2节：[闭包](Chapter03.md#闭包)
 	* 第3节：[构造函数](Chapter03.md#构造函数)
 	* 第4节：[谁知道呢](Chapter03.md#谁知道呢)
-
+* 第4章: [数据库表结构](Chapter04.md)
+	* 第1节: [WP](Chapter04.md#wp)
+	* 第2节: [窄表](Chapter04.md#窄表)
+	* 第3节: [隐私保护](Chapter04.md#隐私保护)
+* 第5章: [前端](Chapter05.md)
 授权许可
 =======
 
