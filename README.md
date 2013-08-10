@@ -15,7 +15,7 @@ Go语言博客实践
 	* 第2节：[目录规划](Chapter02.md#目录规划)
 * 第3章: [面向对象的编程](Chapter03.md)
 	* 第1节：[OOP](Chapter03.md#oop)
-	* 第2节：[闭包](Chapter03.md#闭包)
+	* 第2节：[函数](Chapter03.md#函数)
 	* 第3节：[构造函数](Chapter03.md#构造函数)
 	* 第4节：[谁知道呢](Chapter03.md#谁知道呢)
 * 第4章: [数据库表结构](Chapter04.md)
