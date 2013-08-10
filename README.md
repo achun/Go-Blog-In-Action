@@ -23,6 +23,10 @@ Go语言博客实践
 	* 第2节: [窄表](Chapter04.md#窄表)
 	* 第3节: [隐私保护](Chapter04.md#隐私保护)
 * 第5章: [前端](Chapter05.md)
+* 第6章: [数据验证](Chapter06.md)
+	* 第1节: [验证器](Chapter06.md#验证器)
+	* 第2节: [tag](Chapter06.md#tag)
+	* 第3节: [函数](Chapter06.md#函数)
 
 授权许可
 =======
