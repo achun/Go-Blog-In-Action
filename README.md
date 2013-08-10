@@ -27,6 +27,12 @@ Go语言博客实践
 	* 第1节: [验证器](Chapter06.md#验证器)
 	* 第2节: [tag](Chapter06.md#tag)
 	* 第3节: [函数](Chapter06.md#函数)
+* 第7章: [服务器裸奔](Chapter07.md)
+	* 第1节: [Global](Chapter07.md#global)
+	* 第2节: [toml](Chapter07.md#toml)
+	* 第3节: [main](Chapter07.md#main)
+	* 第4节: [静态文件](Chapter07.md#静态文件)
+
 
 授权许可
 =======
