@@ -32,6 +32,8 @@ Go语言博客实践
 	* 第2节: [toml](Chapter07.md#toml)
 	* 第3节: [main](Chapter07.md#main)
 	* 第4节: [静态文件](Chapter07.md#静态文件)
+	* 第5节: [日志](Chapter07.md#log)
+	* 第6节: [GracefulListen](Chapter07.md#gracefullisten)
 
 
 授权许可
