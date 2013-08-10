@@ -12,7 +12,7 @@ type Controller struct {
 	Res  http.ResponseWriter // 响应对象
 }
 
-// 官方 net/http 包要求的接口形式
+// 官方 net/http 包要求的接口方法
 func (p *Controller) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	p.Req = r
 	p.Res = w
@@ -63,16 +63,16 @@ type HttpPostController interface {
 ```
 
 虽然 Go 只有复合, 但这并不妨碍实现类似 OOP 继承的方式.
-`Login`的需求可以这样用
+`Login` 这样用
 ```go
 http.Handle("/login", &Login{})
 ```
 
 但是很明显,现实中这样的用法是错误的, 因为 WEB 的请求是并发的, 这样写所有并发的请求都由同一个`&Login{}`去处理.
-`Req`,`Res`,`Data` 会在并发中被错误的赋值. 这明显是错误的方式.
+`Req`,`Res`,`Data` 会在并发中被重复赋值.
 我们需要对每一个请求都及时生成一个 `Login` 对象的机制.
 
-重新审视 `http.Handle` 的第二参数. (官方包 server.go 中的代码)
+重新审视 `http.Handle` 的第二参数`http.Handler`接口. (官方包 server.go 中的代码)
 ```go
 type Handler interface {
 	ServeHTTP(ResponseWriter, *Request)
@@ -95,8 +95,9 @@ func (f HandlerFunc) ServeHTTP(w ResponseWriter, r *Request) {
 	f(w, r)
 }
 ```
-一个可以及时生成新的 `http.Handler` 接口对象功能的方法是我们真正需要的. 
-你看到了上面的代码中多引用了几个.
+这个`http.Handler`接口其实只是被当作一个函数使用了. 并发问题留给使用者自己解决.
+对于这种在属性中有数据设置的复合结构. 需要在并发下及时生成新对象. 
+
 `HandlerFunc`的工作方式就是我们要的, 可以这样做
 
 ```go
@@ -107,9 +108,7 @@ http.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
 ```
 每次请求都有新的`Login`对象产生. 当然这个写法很生硬, 如果有100个控制器,难道还要写100个不同的写法! 多数 WEB 框架会通过反射包的支持, 构建新对象. 的确是个好方法. 这种方法, 这里不打算费笔墨介绍.
 
-重新审视这种 `OOP` 的方法在 `Go` 里面因为没有 this 指针的难堪. 除了复合然后通过反射外的方式生成新对象, 还有其他方法可走.
-
-闭包
+函数
 ====
 这是一种看上去蛋疼的用法.
 ```go
@@ -137,10 +136,11 @@ func login(w http.ResponseWriter, r *http.Request) {
 	out()
 }
 ```
+完全就是个函数, 但是并发下, 这完全没有问题. 函数内的局部变量都是动态创建的. 这是 Go 要干的事情. 当然你甚至可以直接用闭包的方法. 连函数命名都省掉.
 
 构造函数
 =======
-Go 没有构造函数的概念的. 没关系我们模拟一个.一般构造用`Constructor`,这用 `New` ,符合 Go 的风格
+Go 没有构造函数的概念的. 没关系我们模拟一个. 一般构造用`Constructor`, 这里选用 `New` 更符合 Go 代码风格.
 ```go
 // 给控制器接口增加一个构造函数
 type HttpPostController interface {
@@ -174,7 +174,7 @@ http.Handle("/login", HandlerNew{new(Login)})
 
 谁知道呢
 =======
-闭包和构造函数的方法, 什么时候用? 我只是把他们罗列出来, 我不知道什么样的场景可以用到. 或许后续的实现中就会用到, 谁知道呢!
+闭包和构造函数的方法, 什么时候用? 我只是把他们罗列出来, 我不知道什么样的场景可以用到. 或许后续的实现中就会用到, 或许用的时候改变一些代码和参数就变的很好使, 谁知道呢!
 
 [0]: http://zh.wikipedia.org/wiki/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1
 [1]: http://gowalker.org/net/http#Handler
