@@ -34,6 +34,11 @@ Go语言博客实践
 	* 第4节: [静态文件](Chapter07.md#静态文件)
 	* 第5节: [日志](Chapter07.md#log)
 	* 第6节: [GracefulListen](Chapter07.md#gracefullisten)
+* 第8章: [轮子工](Chapter08.md)
+	* 第1节: [轮子工](Chapter08.md#轮子工)
+	* 第2节: [修轮子](Chapter08.md#修轮子)
+	* 第3节: [用轮子](Chapter08.md#用轮子)
+	* 第4节: [TypePress不是框架](Chapter08.md#typepress不是框架)
 
 
 授权许可
