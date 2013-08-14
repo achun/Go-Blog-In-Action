@@ -41,7 +41,7 @@ if !Check() {
 ```go
 type HandlerMx func(http.ResponseWriter, *http.Request)
 func (f HandlerMux) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	if !CheckMx(w,r) {
+	if !CheckMux(w,r) {
 		return
 	}
 	f(w,r)
