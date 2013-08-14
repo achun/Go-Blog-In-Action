@@ -88,7 +88,7 @@ template
 
 作者曾对于如何深入的使用`template`包很迷惑. 以至于写了 [achun/template][11]. 正如[谁知道呢][12]所说, 作者尝试使用闭包和 `template` 结合.
 结果发现以前对官方包`template`的理解和使用错的太离谱.
-你可以[在线play][14]下面的代码
+你可以[在线play][13]下面的代码
 
 ```go
 package main
