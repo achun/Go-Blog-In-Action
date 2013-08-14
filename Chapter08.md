@@ -118,7 +118,7 @@ func main() {
 }
 ```
 看吧 `import` 模板并执行输出结果都能做到.(注意play上用Parse模拟了ParseFiles,你如果本地执行可以换成ParseFiles)
-通过闭包和FuncMap结合, 让关键的对象处于闭包的变量访问作用域, 比如 `tpl` 自身, 又或者是[Template_Execute][14]的 `data`. 这可以实现太多的变化.
+通过闭包和FuncMap结合, 让关键的对象处于闭包的变量访问作用域, 比如 `tpl` 自身, 又或者是[Template_Execute][14]的参数 `data`. 可以实现太多的变化了.
 
 
 TypePress不是框架
