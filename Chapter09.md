@@ -97,7 +97,7 @@ get.tmpl
 -------
 1. 从[目录调整](#目录调整)中您应该可以看出, 所有的模块都尽量的分目录存储
 2. global 的方法是非常实用的
-3. 对于WEB应用, 最主要的就是把所有的 Handler 都控制器来, TypePress 对所有涉及的流程都留下了扩展可能.(其实就是再包装一层)
+3. 对于WEB应用, 最主要的就是把所有的 Handler 都控制起来, TypePress 对所有涉及的流程都留下了扩展可能.(其实就是再包装一层)
 4. [achun/template][0] 中闭包的使用方法让视图获得了自由, 控制器只需要设定`layout`和一个`content` view file 即可.
 5. [gorilla/mux][1] 的强大让控制器获得了自由
 
@@ -111,7 +111,7 @@ get.tmpl
 6. 执行控制器 handler, 也就是路由的 `HandlerFunc`, 期间可以设定`contextSet`对象
 7. 传递 `*http.Request` 给`fireAfterFilter` 实施控制器后置过滤,(也可以叫做渲染前置过滤)
 8. 计算视图相关文件位置, 并渲染视图
-9. 传递 `*http.Request`和渲染视图中发生的error 给渲`fireEndRender` 实现渲染观察者
+9. 传递 `*http.Request`和渲染视图中发生的error 给`fireEndRender` 实现控制器完成观察者
 
 
 [0]: https://github.com/achun/template
