@@ -89,6 +89,14 @@ layout.html的样子
 get.tmpl
 ```html
 <h1>这里您随意吧<h1>
+<!-- import 另一个模板 -->
+{{import "foo.tmpl"}}
+<!--
+执行仍然是标准语法
+data是个内建函数, 返回的是原始传入的模板数据
+模板嵌套多次时,可以用data获取最原始的
+-->
+{{template "foo.tmpl" data}}
 ```
 
 架构轮廓
