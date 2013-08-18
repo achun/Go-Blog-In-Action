@@ -39,7 +39,11 @@ Go语言博客实践
 	* 第2节: [修轮子](Chapter08.md#修轮子)
 	* 第3节: [用轮子](Chapter08.md#用轮子)
 	* 第4节: [TypePress不是框架](Chapter08.md#typepress不是框架)
-
+* 第9章: [还你以自由](Chapter09.md)
+	* 第1节: [还你以自由](Chapter09.md#还你以自由)
+	* 第2节: [目录调整](Chapter09.md#目录调整)
+	* 第3节: [Template](Chapter09.md#template)
+	* 第4节: [架构轮廓](Chapter09.md#架构轮廓)
 
 授权许可
 =======
