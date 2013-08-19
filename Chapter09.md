@@ -108,6 +108,7 @@ data是个内建函数, 返回的是原始传入的模板数据
 3. 对于WEB应用, 最主要的就是把所有的 Handler 都控制起来, TypePress 对所有涉及的流程都留下了扩展可能.(其实就是再包装一层)
 4. [achun/template][0] 中闭包的使用方法让视图获得了自由, 控制器只需要设定`layout`和一个`content` view file 即可.
 5. [gorilla/mux][1] 的强大让控制器获得了自由
+6. [gorilla/context][3] 让数据绑定更巧妙灵活
 
 执行流程
 -------
@@ -125,3 +126,4 @@ data是个内建函数, 返回的是原始传入的模板数据
 [0]: https://github.com/achun/template
 [1]: https://github.com/gorilla/mux
 [2]: https://github.com/achun/Go-Blog-In-Action/blob/master/Chapter08.md#mux
+[3]: https://github.com/gorilla/context
