@@ -45,7 +45,7 @@ GracefulListen
 
 注意
 ====
-因还在开发中, 所以 GitHub 源码中没有上传 `log` 目录. 如果你想试运行, 可以自建.
+GitHub 源码中没有上传 `log` 目录. 如果你想试运行, 可以自建.
 
 [0]: http://gowalker.org/github.com/achun/typepress/src/global#_variables
 [1]: http://gowalker.org/github.com/achun/typepress/src/controllers#StaticFile
