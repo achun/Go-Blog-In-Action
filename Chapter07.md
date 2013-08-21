@@ -45,9 +45,9 @@ GracefulListen
 ====
 因还在开发中, 所以 GitHub 源码中没有上传 `DocRoot` 目录, 也没有建立 `log` 目录. 如果你想试运行, 可以自建.
 
-[0]: http://gowalker.org/github.com/achun/typepress/global#_variables
-[1]: http://gowalker.org/github.com/achun/typepress/controllers#StaticFile
-[2]: http://gowalker.org/github.com/achun/typepress/global#NewFileWriter
-[3]: http://gowalker.org/github.com/achun/typepress/global#OnShutDown
-[4]: https://github.com/achun/typepress/blob/master/main.go#L1
-[5]: http://gowalker.org/github.com/achun/typepress/global#LoadConfig
+[0]: http://gowalker.org/github.com/achun/typepress/src/global#_variables
+[1]: http://gowalker.org/github.com/achun/typepress/src/controllers#StaticFile
+[2]: http://gowalker.org/github.com/achun/typepress/src/global#NewFileWriter
+[3]: http://gowalker.org/github.com/achun/typepress/src/global#OnShutDown
+[4]: https://github.com/achun/typepress/blob/master/src/typepress/main.go
+[5]: http://gowalker.org/github.com/achun/typepress/src/global#LoadConfig
