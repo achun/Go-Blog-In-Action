@@ -90,14 +90,14 @@ func NewLogger(writer io.Writer, prefix string, logLevel int) Logger
 log:=MultiLogger(logMail, logFile)
 ```
 好了, 用变量 log 记录日志吧, 不同的日志级别文件也写了, 及时的 email 也发送了.
-修改版本的 [achun/log][18] 只做了一些小的调整. 同样 pull 给了原作者, 遗憾的是...或许又是**笔者蹩脚的英文给搞砸了**. 
+修改版本的 [achun/log][18] 只做了一些小的调整. 同样 pull 给了原作者. 
 
-修改版本只是变更了两项
+修改版本只是变更了
 
 1. 把变量 `logLevelToName` 改为 `LogLevelToName `, 导出以便改变Level名称.比如原来`logLevelToName[LOGLEVEL_WARN] = "[Warning]"`,你可以改为`[W]`
-2. 给Logger增加 Flags 字段, 以便设置 log 格式.默认为官方包 `log.LstdFlags`
+2. 给 Logger 增加 Flags 字段, 以便设置 log 格式.默认为官方包 `log.LstdFlags`
+3. 增加 `equal` 规则, 默认日志记录规则 `0<= 记录日志 <=设定级别`, 增加相等规则 `记录日志 == 设定级别`
 
-当然这不是必须的.
 ### session
 [gorilla/session][19] 本身很简单. 这里已经提及 [gorillatoolkit][20] 两个工具了. 事实是不止两个, 这两个工具内部还使用了 [gorillatoolkit][20] 其他的工具. 
 session 综合了其他几个工具 `context`, `securecookie` 提供 cookies 和 filesystem 存储支持. 当然也预留了 `Store` 接口
