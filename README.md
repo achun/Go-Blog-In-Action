@@ -56,7 +56,8 @@ Go语言博客实践
 	* 第3节: [meta](Chapter11.md#meta)
 	* 第4节: [models](Chapter11.md#models)
 	* 第5节: [事件大杂烩](Chapter11.md#事件大杂烩)
-	* 第6节: [碎碎念](Chapter11.md#碎碎念)
+	* 第6节: [Ajax技巧](Chapter11.md#ajax技巧)
+	* 第7节: [碎碎念](Chapter11.md#碎碎念)
 
 授权许可
 =======
