@@ -24,6 +24,8 @@ main
 ====
 用`braintree/manners`作为可`ShutDown`的服务器. [main][4] 只负责启动/重启/停止服务器, 所以`main`函数反而是最简单的. `import`一些包, 使其生效, 简单的维护下服务器的状态就可以了. 你会发现这个项目是分好多`package`完成, 这就是 Go 的风格.
 
+随着项目的进展作者发现在控制台 `Ctrl+C` 并不会立即结束进程, 这应该是受 `socket` 释放周期影响. 到底该如何处理, 现在还不明朗.
+
 静态文件
 =======
 对于`裸奔的服务器`, 完成静态文件访问是最基本的. 路由分派器`gorilla/mux`没有提供静态文件支持, 这很正常, 这不是路由负责的, 要由应用自己完成. TypePress采用这样的路由方式
@@ -43,7 +45,7 @@ GracefulListen
 
 注意
 ====
-因还在开发中, 所以 GitHub 源码中没有上传 `DocRoot` 目录, 也没有建立 `log` 目录. 如果你想试运行, 可以自建.
+因还在开发中, 所以 GitHub 源码中没有上传 `log` 目录. 如果你想试运行, 可以自建.
 
 [0]: http://gowalker.org/github.com/achun/typepress/src/global#_variables
 [1]: http://gowalker.org/github.com/achun/typepress/src/controllers#StaticFile
