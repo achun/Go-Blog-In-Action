@@ -44,6 +44,18 @@ Go语言博客实践
 	* 第2节: [目录调整](Chapter09.md#目录调整)
 	* 第3节: [Template](Chapter09.md#template)
 	* 第4节: [架构轮廓](Chapter09.md#架构轮廓)
+* 第10章: [视图](Chapter10.md)
+	* 第1节: [视图目录结构](Chapter10.md#视图目录结构)
+	* 第2节: [base模板目录](Chapter10.md#base模板目录)
+	* 第3节: [Layout](Chapter10.md#layout)
+	* 第4节: [模板文件目录](Chapter10.md#模板文件目录)
+	* 第5节: [模板文件](Chapter10.md#模板文件)
+* 第11章: [第一个控制器](Chapter11.md)
+	* 第1节: [Install](Chapter11.md#install)
+	* 第2节: [子路由](Chapter11.md#子路由)
+	* 第3节: [meta](Chapter11.md#meta)
+	* 第4节: [models](Chapter11.md#models)
+	* 第5节: [碎碎念](Chapter11.md#碎碎念)
 
 授权许可
 =======
