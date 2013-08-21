@@ -36,9 +36,13 @@ TypePress使用了基于[gosexy/db][0] 修改版本 [achun/db][1]
 meta
 ====
 您可以在 [meta][4] 中看到所有的数据表字段定义, 以及对应的验证方法. 采用的是纯手写代码, 看上去那么生硬笨拙.
+你也许注意到, 所有的字段命名都是唯一的, 不管在哪个表里面, 只要字段名一致, 那一定表示的是同一类数据.
+虽然这样的命名看上去有些长, 写代码要多敲几个键, 但这不会造成歧义.
 
 事实上这样写很简单直观, 一目了然, 而且容易修改.
 需要注意的是, meta 中的验证是基于字段的值, 不考虑记录完整性问题, 那由 models 负责.
+
+字段名大小写的问题. 因为 [gosexy/db][0] 是支持多种数据库的, 开发者有可能用大小写敏感的数据库, 所以 TypePress 的代码中将严格区分大小写. 如果您发现有地方违背了, 请提交[issues][10], 非常感谢.
 
 models
 ======
@@ -74,3 +78,4 @@ meta, models, controllers 就是这样各负其责配合完成业务需求.
 [7]: http://achun.github.io/JingYes/doc/
 [8]: http://purecss.io
 [9]: http://getbootstrap.com/
+[10]: https://github.com/achun/typepress/issues
