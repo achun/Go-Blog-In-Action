@@ -68,7 +68,7 @@ The gosexy/db package is a database abstraction and a collection of wrappers for
 **遗憾的是修改版本无法与其兼容, 参见修改说明 [README_CN][15].**
 
 ### log
-一般来说实现一个 log 包并不复杂, 对官方提供的 log 包进行少许包装即可完成. 选择 [uniqush/log][17] 是因为其提供了 MultiLogger. 这正式其他 log 包所不具备的. 先看几个定义
+一般来说实现一个 log 包并不复杂, 对官方提供的 log 包进行少许包装即可完成. 选择 [uniqush/log][17] 是因为其提供了 MultiLogger. 这是其他 log 包所不具备的. 先看几个定义
 ```go
 type multiLogger struct {
     loggers []Logger
@@ -76,7 +76,7 @@ type multiLogger struct {
 func NewLogger(writer io.Writer, prefix string, logLevel int) Logger {/*...*/}
 ```
 `Logger` 不言而喻就是一个 log 接口, 这不必费笔墨讲解. MultiLogger 是一个 Logger 切片. 一般的一个应用一个 log 这是很常规的用法. MultiLogger 有什么必要么? 还记得很多 httpd 服务都把访问日志和错误日志分开保存么?
-是了 MultiLogger 可以把不同级别的日志分别输出处理. 并且输出对象要求是 io.Writer 接口实现. 比如根据日志级别不同分别保存到不同文件. 
+是了, MultiLogger 可以把不同级别的日志分别输出处理. 并且输出对象要求是 io.Writer 接口实现. 比如根据日志级别不同分别保存到不同文件. 
 
 io.Writer 还有更妙的用法.
 
@@ -99,7 +99,21 @@ log:=MultiLogger(logMail, logFile)
 
 当然这不是必须的.
 ### session
-[gorilla/session][19] 本身很简单. 这里已经提及 [gorillatoolkit][20] 两个工具了. 事实是不止两个, 这两个工具内部还使用了 [gorillatoolkit][20] 其他的工具. [Gorilla web toolkit][21] 这篇博客里简单介绍了几个. 这些都会被用到开发中.
+[gorilla/session][19] 本身很简单. 这里已经提及 [gorillatoolkit][20] 两个工具了. 事实是不止两个, 这两个工具内部还使用了 [gorillatoolkit][20] 其他的工具. 
+session 综合了其他几个工具 `context`, `securecookie` 提供 cookies 和 filesystem 存储支持. 当然也预留了 `Store` 接口
+
+```go
+type Store interface {
+    Get(r *http.Request, name string) (*Session, error)
+    New(r *http.Request, name string) (*Session, error)
+    Save(r *http.Request, w http.ResponseWriter, s *Session) error
+}
+```
+这为扩展提供了可能. [gorilla/session][19] 说明中列举的实现.
+
+ * [github.com/srinathgs/couchbasestore][21] - store sessions in Couchbase
+ * [github.com/boj/redistore][22] - store sessions in Redis
+
 
 船小好调头
 =========
@@ -126,4 +140,5 @@ log:=MultiLogger(logMail, logFile)
 [18]: https://github.com/achun/log
 [19]: https://github.com/gorilla/sessions
 [20]: http://www.gorillatoolkit.org/pkg/
-[21]: http://my.oschina.net/achun/blog/149518
+[21]: https://github.com/srinathgs/couchbasestore
+[22]: https://github.com/boj/redistore
