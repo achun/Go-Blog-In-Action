@@ -56,6 +56,41 @@ models 不考虑操作权限问题, 这由控制器负责.
 
 meta, models, controllers 就是这样各负其责配合完成业务需求.
 
+事件大杂烩
+=========
+事件驱动或者事件模型的概念已经很普遍了, 事件机制的价值无可非议. TypePress 采用了最生硬笨拙的实现方法. 为不同的事件建立单独的全局变量, 并且采用`slice`, 而不是`map`. 分开独立的变量就是为了避开使用 `map`. 方法生硬但很有效. 这其实就是一组 [On/Fire][11] 作为前缀的函数. 注册事件用 `OnXxxx`, `FireXxxx` 其实已经在对应的地方写过了, 一般情况下不需要调用.
+
+预计这种方法, 在未来也会应用到插件中去. 事实上写日志啥的就使用 `OnXxxx` 来注册. 原先 TypePress 好几处地方都写下了 `LogDebug(...)` 这样代码, 随着事件机制的完成, 那些代码都移除了. 只是在
+```go
+func FireEvent(code int, r *http.Request, i ...interface{}) bool {
+	for _, f := range events {
+		if !f(code, r, i...) {
+			return false
+		}
+	}
+	if code != 200 && len(events) == 0 { // 这里
+		LogDebug(code, r, i...)
+	}
+	return true
+}
+```
+增加了一个 `LogDebug` 方便遇到错误时进行调试. 配套的 [HandlerMux_ServeHTTP][12] 中的 `defer` 
+
+```go
+defer func() {
+	if e := recover(); e != nil {
+		http.Error(wr, "500 Internal Server Error", 500)
+		_, file, line, _ := runtime.Caller(4) // 这里
+		FireEvent(500, r, "PanicOnHandlerRouter", file, line)
+	} else {
+		FireEvent(200, r, "deferHandlerRouter")
+	}
+}()
+```
+获取了 `panic` 出错的代码位置, 并传递给 `FireEvent`. 记录日志就可以通过 `OnEvent` 去注册了, 这次更新忘了实现了. 下次补上.
+
+TypePress 这这种做法不是严格的事件模型, 更像一个大杂烩.
+
 碎碎念
 =====
 完成第一个控制器的时候, 时逢 [BootStrap 3.0][9] 发布, 让作者遗憾的是:
@@ -79,3 +114,5 @@ meta, models, controllers 就是这样各负其责配合完成业务需求.
 [8]: http://purecss.io
 [9]: http://getbootstrap.com/
 [10]: https://github.com/achun/typepress/issues
+[11]: http://gowalker.org/github.com/achun/typepress/src/global#_index
+[12]: http://gowalker.org/github.com/achun/typepress/src/controllers#HandlerMux_ServeHTTP
