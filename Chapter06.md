@@ -57,5 +57,5 @@ TypePress 正是采用这种暴力 [函数验证][1] 的方式, 并且你会看�
 TypePress 把验证器和数据表 `struct` 定义放到一起, 目录命名 `meta`.
 你会看到所有的验证函数都有 `Is` 前缀, 加个统一的前缀, 只是为了在编辑器里面自动完成方便.
 
-[0]: https://github.com/achun/typepress/blob/master/meta/meta.go
-[1]: https://github.com/achun/typepress/blob/master/meta/validation.go
+[0]: http://gowalker.org/github.com/achun/typepress/src/meta
+[1]: http://gowalker.org/github.com/achun/typepress/src/meta#Validators
