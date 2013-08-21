@@ -55,7 +55,8 @@ Go语言博客实践
 	* 第2节: [子路由](Chapter11.md#子路由)
 	* 第3节: [meta](Chapter11.md#meta)
 	* 第4节: [models](Chapter11.md#models)
-	* 第5节: [碎碎念](Chapter11.md#碎碎念)
+	* 第5节: [事件大杂烩](Chapter11.md#事件大杂烩)
+	* 第6节: [碎碎念](Chapter11.md#碎碎念)
 
 授权许可
 =======
