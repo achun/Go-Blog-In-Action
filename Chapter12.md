@@ -39,3 +39,28 @@ application framework
 
 如果您下载过以前的代码, 目录调整后再次 `go build` 可能需要删除以前的 `.a` 文件才能顺利通过.
 
+使用可以参考 [TypePress使用方法][1].
+
+被GoGet教育了一把
+================
+
+开发过程中, 作者把 TypePress 介绍给其他开发者, 希望能得到一些反馈.
+得到的第一个反馈竟然是无法编译通过. 用 `go get` 得到的 TypePress 引入的 package 和作者开发环境的版本不一致.
+于是我删除了自己机器上的相关 package, `go get` 整个过程, 结果和反馈问题的一样, 版本确实不一致.
+
+悲催的事情开始了.
+
+作者是个 GIT 新手, 以为自己 GIT 操作问题引起的, 这样绕来绕去弄了好几个小时. 最后只留下 `master` 一个分支, 其他都删除了问题才得以解决.
+
+第二天睡醒, 开始怀疑是否是 `go get` 的使用问题造成的, 于是在 [Download_and_install_packages_and_dependencies][0] 看到这个
+
+```
+When checking out or updating a package, get looks for a branch or tag that matches the locally installed version of Go. The most important rule is that if the local installation is running version "go1", get searches for a branch or tag named "go1". If no such version exists it retrieves the most recent version of the package. 
+```
+原来 `go get` 会对分支的名称进行匹配, 优先 `checkout` 与`Go`版本匹配的分支, 比如`go1`, 如果匹配不到才会采用最新的分支. 那些出问题的 package 无一例外都有 `go1` 这样的分支.
+用分支名称进行版本匹配这方式很好. 是最简单的 `release` 管理. So
+
+文档要仔细看
+
+[0]: http://golang.org/cmd/go/#hdr-Download_and_install_packages_and_dependencies
+[1]: https://github.com/achun/typepress/#%E4%BD%BF%E7%94%A8
