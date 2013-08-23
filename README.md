@@ -58,6 +58,9 @@ Go语言博客实践
 	* 第5节: [事件大杂烩](Chapter11.md#事件大杂烩)
 	* 第6节: [Ajax技巧](Chapter11.md#ajax技巧)
 	* 第7节: [碎碎念](Chapter11.md#碎碎念)
+* 第12章: [又调整目录了](Chapter12.md)
+	* 第1节: [应用程序框架](Chapter12.md#应用程序框架)
+	* 第2节: [被GoGet教育了一把](Chapter12.md#被goget教育了一把)
 
 授权许可
 =======
