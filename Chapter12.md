@@ -52,13 +52,19 @@ application framework
 
 作者是个 GIT 新手, 以为自己 GIT 操作问题引起的, 这样绕来绕去弄了好几个小时. 最后只留下 `master` 一个分支, 其他都删除了问题才得以解决.
 
-第二天睡醒, 开始怀疑是否是 `go get` 的使用问题造成的, 于是在 [Download_and_install_packages_and_dependencies][0] 看到这个
+第二天睡醒, 开始怀疑是否是 `go get` 的使用问题造成的, 于是在官方 [Download_and_install_packages_and_dependencies][0] 看到这个
 
 ```
-When checking out or updating a package, get looks for a branch or tag that matches the locally installed version of Go. The most important rule is that if the local installation is running version "go1", get searches for a branch or tag named "go1". If no such version exists it retrieves the most recent version of the package. 
+When checking out or updating a package,
+get looks for a branch or tag that matches the locally installed version of Go.
+The most important rule is that if the local installation is running version "go1",
+get searches for a branch or tag named "go1".
+If no such version exists it retrieves the most recent version of the package. 
 ```
 原来 `go get` 会对分支的名称进行匹配, 优先 `checkout` 与`Go`版本匹配的分支, 比如`go1`, 如果匹配不到才会采用最新的分支. 那些出问题的 package 无一例外都有 `go1` 这样的分支.
-用分支名称进行版本匹配这方式很好. 是最简单的 `release` 管理. So
+用分支名称进行版本匹配这方式很好. 是最简单的 `release` 自动匹配.
+
+so
 
 文档要仔细看
 
