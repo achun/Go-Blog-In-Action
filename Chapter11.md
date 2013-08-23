@@ -130,7 +130,7 @@ w.Write([]byte("/"))
 
 [0]: https://github.com/gosexy/db
 [1]: https://github.com/achun/db
-[2]: http://gowalker.org/github.com/achun/typepress/src/controllers#InitInstall
+[2]: http://gowalker.org/github.com/achun/typepress/src/blog/install#InitInstall
 [3]: https://github.com/gorilla/mux
 [4]: http://gowalker.org/github.com/achun/typepress/src/meta
 [5]: http://gowalker.org/github.com/achun/typepress/src/models
