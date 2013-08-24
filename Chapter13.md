@@ -51,5 +51,7 @@ var I18n = func(r *http.Request, s string, i ...interface{}) string {
 
 如果增加修改客户端的提交, 那直接操作 `http.Request.Form` 好了.
 
+如果数据源格式是JSON,那转换到 `http.Request.Form`, 当作容器使用好了.
+
 如果`string`真的支持不了你的业务需求, 只有单独写处理接口了.
 
