@@ -30,7 +30,7 @@ func I18n(lang, s string, i ...interface{}) string {
 2. 传递之前对 `http.Request.Form` 进行处理.
 3. I18n 这个函数干脆也直接接收 `*http.Request` 对象
 
-很明显控制器中需要使用这些措施. 那这样的话预留的I18n看起来应该是这样
+那这样的话预留的I18n看起来应该是这样
 
 ```go
 var I18n = func(r *http.Request, s string, i ...interface{}) string {
@@ -43,5 +43,6 @@ var I18n = func(r *http.Request, s string, i ...interface{}) string {
 	return fmt.Sprintf(s, i...)
 }
 ```
+很明显控制器相关的代码中需要使用这些措施. 又要改接口了. 没关系 TypePress 写好的接口没几个. 现在就做这个工作, 比以后再做科学多了.
 
 不得不说的是, 很多应用是没有 I18n 需求的, 好在默认的实现只是包装了下 `fmt` 的输出, 这应该可以接受.
