@@ -46,3 +46,10 @@ var I18n = func(r *http.Request, s string, i ...interface{}) string {
 很明显控制器相关的代码中需要使用这些措施. 又要改接口了. 没关系 TypePress 写好的接口没几个. 现在就做这个工作, 比以后再做科学多了.
 
 不得不说的是, 很多应用是没有 I18n 需求的, 好在默认的实现只是包装了下 `fmt` 的输出, 这应该可以接受.
+
+重要的是 `url.Values` 提供的支持也非常的丰富, 虽然 `map[string][]string` 限定死最终数据类型是 `string`, 但是足以满足绝大多数需求了.
+
+如果增加修改客户端的提交, 那直接操作 `http.Request.Form` 好了.
+
+如果`string`真的支持不了你的业务需求, 只有单独写处理接口了.
+
