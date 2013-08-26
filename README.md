@@ -62,6 +62,8 @@ Go语言博客实践
 	* 第1节: [应用程序框架](Chapter12.md#应用程序框架)
 	* 第2节: [被GoGet教育了一把](Chapter12.md#被goget教育了一把)
 * 第13章: [I18n](Chapter13.md)
+	* 第1节: [代码中的I18n](Chapter13.md#代码中的i18n)
+	* 第2节: [数据库错误信息I18n](Chapter13.md#数据库错误信息I18n)
 
 授权许可
 =======
