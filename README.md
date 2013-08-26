@@ -64,7 +64,7 @@ Go语言博客实践
 * 第13章: [I18n](Chapter13.md)
 	* 第1节: [代码中的I18n](Chapter13.md#代码中的i18n)
 	* 第2节: [数据库错误信息I18n](Chapter13.md#数据库错误信息I18n)
-* 第14章: [models具体实现](Chapter14.md)
+* 第14章: [最简单的models实现](Chapter14.md)
 
 授权许可
 =======
