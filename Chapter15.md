@@ -6,6 +6,8 @@
 
 当然偶尔调整下以前的代码, 增加些小玩意啥的也有. 大概就是下面这些东东.
 
+* 调整 url.Values 相关操作到 global 包
+* 数据库结构小修改, 如果您一起进行过 install, 请重新 install 吧
 * 包装下自动 HandlerParseForm
 * 包装下先检查是否已经登录 HandleSignin
 * 包装下检查验证码 HandlerCaptcha
