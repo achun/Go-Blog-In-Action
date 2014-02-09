@@ -12,16 +12,27 @@ Package选择与修改
 =================
 
  - Martini社区 [martini-contrib][8]
+
     这是一组社区提供的 Martini package, 可能会使用一些. 事实上如果您研究过 Martini 和这些 contrib package 后您会发现一个事实: 真的解耦了.
+
  - 角色控制 [access.flags][9]
+
     角色控制是应用中的常见需求, 笔者基于 Martini 实现了一个通过 interger 标记值控制允许访问的 package. 可以用于角色控制. 希望能被 martini-contrib 收录.
+
  - 配置文件操作 [tom-toml][10]
+
     笔者重新写了一个 TOML 解析器 tom-toml, 参见文章[有关tom-toml的一些事儿][11].
+
  - 数据库操作 [typepress/db][12]
+
     [upper.io/db][13] 是 [gosexy/db][14] 的重构版本. 代码质量有很大提高. 但是同样的包路径给社区开发造成了同样的问题. 为了以后方便笔者 fork 了一个 github 版本 [typepress/db][15].
+
  - 日志支持 [achun/log][16]
+
     achun/log fork 自 [uniqush/log ][17], 做了些改进.
+
  - template 模板
+
     可能会有几个备选版本 martini-contrib 中有[render][18], 笔者写有 [template][19].
 
 依赖注入
