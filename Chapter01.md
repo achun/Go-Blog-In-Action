@@ -15,9 +15,9 @@ Package选择与修改
 
     这是一组社区提供的 Martini package, 可能会使用一些. 事实上如果您研究过 Martini 和这些 contrib package 后您会发现一个事实: 真的解耦了.
 
- - 角色控制 [access.flags][9]
+ - 角色控制 [accessflags][9]
 
-    角色控制是应用中的常见需求, 笔者基于 Martini 实现了一个通过 interger 标记值控制允许访问的 package. 可以用于角色控制. 希望能被 martini-contrib 收录.
+    角色控制是应用中的常见需求, accessflags 基于 Martini 实现了一个通过 interger 标记值控制 Martini.Handler 是否允许访问. 可以用于角色控制.
 
  - 配置文件操作 [tom-toml][10]
 
@@ -48,7 +48,7 @@ Martini 的核心就是依赖注入, 解耦支持. 那如果基于依赖注入�
   [6]: http://my.oschina.net/achun/blog/192912 "Martini的工作方式"
   [7]: http://my.oschina.net/achun/blog/197546 "Martini中的Handler"
   [8]: https://github.com/martini-contrib "martini-contrib"
-  [9]: https://github.com/achun/access.flags
+  [9]: https://github.com/typepress/accessflags
   [10]: https://github.com/achun/tom-toml
   [11]: http://my.oschina.net/achun/blog/196953 "有关tom-toml的一些事儿"
   [12]: https://github.com/typepress/db
