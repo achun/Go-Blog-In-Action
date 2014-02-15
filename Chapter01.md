@@ -27,9 +27,9 @@ Package选择与修改
 
     [upper.io/db][13] 是 [gosexy/db][14] 的重构版本. 代码质量有很大提高. 但是同样的包路径给社区开发造成了同样的问题. 为了以后方便笔者 fork 了一个 github 版本 [typepress/db][15].
 
- - 日志支持 [achun/log][16]
+ - 日志支持 [typepress/log][16]
 
-    achun/log fork 自 [uniqush/log ][17], 做了些改进.
+    typepress/log 学习了 [uniqush/log ][17] 的一些好想法重新构建的.
 
  - template 模板
 
@@ -38,7 +38,7 @@ Package选择与修改
 依赖注入
 ========
 
-Martini 的核心就是依赖注入, 解耦支持. 那如果基于依赖注入的想法, 上述的 package 被替换掉应该不是一件复杂的事情. 随时引入依赖注入也应该很容易. 也许吧. 实践中我会关注这个事情.
+Martini 的核心就是依赖注入, 解耦支持. 那依据依赖注入的思路, 上述的 package 被替换掉应该不是一件复杂的事情. 随时引入依赖注入也应该很容易. 也许吧. 实践中我会关注这个事情.
 
   [1]: https://github.com/achun/Go-Blog-In-Action/tree/master
   [2]: https://github.com/codegangsta/martini "Martini"
@@ -55,7 +55,7 @@ Martini 的核心就是依赖注入, 解耦支持. 那如果基于依赖注入�
   [13]: https://github.com/upper/db
   [14]: https://github.com/gosexy/db
   [15]: https://github.com/typepress/db
-  [16]: https://github.com/achun/log
+  [16]: https://github.com/typepress/log
   [17]: https://github.com/uniqush/log
   [18]: https://github.com/martini-contrib/render
   [19]: https://github.com/achun/template
