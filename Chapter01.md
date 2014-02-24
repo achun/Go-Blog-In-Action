@@ -4,9 +4,19 @@
 在上一版 [Go语言博客实践][1] 中, 作者提到不使用框架来完成一个 Blog 系统. 现在选择 [Martini][2] 作为基础框架确实和 Martini 设计的独特性有关. Martini 的核心 [Injector][3] 实现了[依赖注入][4] ( 参见 [控制反转][5] ).
 
 这里有两篇博客可供参考 [Martini的工作方式][6] 和 [Martini中的Handler][7].
-简单的说 Injector 通过 reflect 削弱合作对象需要引用定义的依赖关系. 
+简单的说 Injector 通过 reflect 削弱了合作对象间引用依赖.
 
-上一版本因为找不到能"解耦"的框架而放弃使用框架. Martini 在 Injector 的支持下为"解耦"提供了可能. 这正是笔者希望的.
+对于 Martini 的使用可以简单总结为:
+
+ - Martini 对象方法 Map/MapTo/Use/Handlers/Action 非并发安全, 服务器运行前使用.
+ - Router 对象也是非并发安全的, 服务器运行前使用.
+ - Context 对象是在 http Request 时动态创建的.
+ - 所有要使用的对象必须先 Map/MapTo.
+ - 对 http.ResponseWriter 任何的 Write 都会终止 http Request.
+ - 善用 Context 对象的 Next 方法会产生奇效.
+
+
+上一版本因为不能找到 "解耦" 的框架而放弃使用框架. Martini 在 Injector 的支持下为"解耦"提供了可能. 这正是笔者希望的.
 
 Package选择与修改
 =================
