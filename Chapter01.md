@@ -47,7 +47,7 @@ Package选择与修改
 
     可能会有几个备选版本 martini-contrib 中有[render][18], 笔者写有 [template][19].
 
- - [i18n][20] 国际化支持
+ - 国际化支持 [i18n][20]
 
     这是一个简洁的 i18n 支持接口, 仿照 fmt.Sprint, fmt.Sprintf 的形式.
     在使用中即便暂时没有国际化支持的需求, 使用 i18n 所带来的消耗也是极小的. 完全可以当作 fmt.Sprint, fmt.Sprintf 两个方法的代理.
