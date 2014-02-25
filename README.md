@@ -13,7 +13,7 @@ Go语言博客实践
 ----------
 
 - 第1章：[选择 Martini 框架](Chapter01.md)
-	- 第1节：[为什么是Martini](Chapter01.md#为什么是Martini)
+	- 第1节：[为什么是Martini](Chapter01.md#为什么是martini)
 	- 第2节：[Package选择与修改](Chapter01.md#package选择与修改)
 	- 第3节：[依赖注入](Chapter01.md#依赖注入)
 - 第2章：[永远的MVC](Chapter02.md)
