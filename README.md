@@ -14,16 +14,16 @@ Go语言博客实践
 
 - 第1章：[选择 Martini 框架](Chapter01.md)
 	- 第1节：[为什么是Martini](Chapter01.md#为什么是Martini)
-	- 第2节：[Package选择与修改](Chapter01.md#Package选择与修改)
+	- 第2节：[Package选择与修改](Chapter01.md#package选择与修改)
 	- 第3节：[依赖注入](Chapter01.md#依赖注入)
 - 第2章：[永远的MVC](Chapter02.md)
-	- 第1节：[永远的MVC](Chapter02.md#永远的MVC)
+	- 第1节：[永远的MVC](Chapter02.md#永远的mvc)
 	- 第2节：[常见的方法](Chapter02.md#常见的方法)
 	- 第3节：[TypePress的方法](Chapter02.md#typepress的方法)
 - 第3章: [面向对象和并发](Chapter03.md)
     - 第1节：[面向对象](Chapter03.md#面向对象)
     - 第2节：[并发下维护上下文](Chapter03.md#并发下维护上下文)
-    - 第3节：[Martini下的并发](Chapter03.md#Martini下的并发)
+    - 第3节：[Martini下的并发](Chapter03.md#martini下的并发)
 
 ----------
 授权许可
