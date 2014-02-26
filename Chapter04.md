@@ -21,7 +21,7 @@ func main() {
     server.Simple()
 }
 ```
-没有参数是因为有默认值. 从功能上 TypePress 的 Simple Server 只是多了 Gzip 预压缩支持. 下面来列举下这个 Simple Server 背后都做了哪些工作
+这个服务器没有设置任何 Route, 只返回 404, 裸奔的服务器. 这只是表面, 下面来列举下这个 Simple Server 背后都做了哪些工作
 
 ## 配置基本参数
 有三种方法设置服务器基本参数:
@@ -34,7 +34,6 @@ func main() {
 有些基本的功能是一个框架需要提供的
 
  - 安全关闭机制 shutdown 总用 kill 是不安全的. 得益于 [manners][2]
- - Gzip 预压缩支持 很简单实用的功能
  - i18n 接口 [i18n][3] 接口非常轻量, 当 fmt.Sprintf 使就行
  - 自定义信号 完全采用 os.Signal 接口, 安全关闭信号就是基于这个
  - 延迟初始化 有些初始化工作需要在 main 执行时调用
