@@ -174,17 +174,17 @@ Martini 发现了 WEB 开发中单个请求响应要维护的上下文有这样�
 
  - 数据类型是预知的 很显然
  - 数据类型有限的   很显然
- - 数据类型常常是唯一的 就算偶有不唯一, 定义个别名号了, 这很容易
- - 确定数据, 生成数据在应用中往往是分阶段的
+ - 数据类型常常是唯一的 就算偶有不唯一, 定义个别名就行了, 这很容易
+ - 阶段响应, 完整的响应过程往往分多个阶段, 为了代码复用, 各个阶段有独立的代码
 
 因此 Martini 采用了这样的方案:
 
- 1. Martini 负责动态构建一个 Context 对象, Context 复合了 Injector
- 2. Martini 的 Handler 不是一个是一组 []Hanlder, 有序执行
- 3. 使用者对 Handler 进行功能划分, 先执行的负责准备好上下文数据 dat
- 4. 通过 Map(dat) 保存到 Context. (实际是有 Injector 负责)
- 5. 后续 Hander 要用 Dat, 直接在 Handler 函数中加入参数 dat datType
- 6. Injector 使用 reflect 分析 Handler 的参数类型, 并取出 dat, 调用 Handler
+ 1. Martini 负责动态构建一个 Context 对象, Context 继承自 Injector
+ 2. Martini 的 Handler 是一组 []Hanlder, 有序执行
+ 3. 使用者对 Handler 进行阶段性功能划分, 先执行的负责准备好上下文数据 dat
+ 4. 通过 Map(dat) 保存到 Context. (实际由 Injector 负责)
+ 5. 后续 Hander 要用 dat, 直接在 Handler 函数中加入参数 dat datType
+ 6. Injector 通过 reflect 分析 Handler 的参数类型, 并取出 dat, 调用 Handler
 
 这个方法比 gorilla/context 更高效实用, 虽然都是用 map 保存上下文数据, 差别有
 
