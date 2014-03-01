@@ -51,8 +51,8 @@ func main() {
 这些都已经准备好了. 哦还有模板, 这个东西不打算默认引入, 各种口味难调.
 
 ## 模块化
-这些很多都是独立的 package, 可以单独使用. 从 [typepress][7] org 可以看出, 分成独立的 rep.
-typepress 特别注意调降低依赖.
+这些很多都是独立的 package, 可以单独使用. 从 [typepress][7] org 可以看出, 模块以独立的 rep 出现.
+typepress 特别注意降低依赖, 写成独立 rep 是最基本的方法.
 
   [1]: https://github.com/mojombo/toml
   [2]: github.com/braintree/manners
