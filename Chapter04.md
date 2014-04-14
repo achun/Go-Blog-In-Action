@@ -38,11 +38,10 @@ func main() {
  - 自定义信号 完全采用 os.Signal 接口, 安全关闭信号就是基于这个
  - 延迟初始化 有些初始化工作需要在 main 执行时调用
  - 子路由 按 http method 划分的子路由, 主路由只能由 main 函数调用
- - 自动路由注册 这是个**实验性**的特性
  - 角色控制 字符串角色命名, 自动转化为 [accessflags][4] 支持的 interger
  - 日志支持 引入 [typepress/log][5], 支持 file 分割, email发送
  - 数据库接口支持 引入[typepress/db][6], 即便不需要也不必担心, 这是个轻量接口
- - global 全局可访问的对象和类型
+ - [core][7] 全局可访问的对象和 [types][8] 类型
  - **基于 Martini Injector 的设计 这是最最重要的**
 
 这样列举起来, 貌似这个 Simple Server 貌似已经不轻量了. 不! 他依然是轻量的, 因为这些接口设计的很轻量, 当你不用他们的时候, 他们不会产生过多的消耗. 这些接口的代码都很短, 引入他们, 怎加不了多少代码空间.
@@ -51,8 +50,9 @@ func main() {
 这些都已经准备好了. 哦还有模板, 这个东西不打算默认引入, 各种口味难调.
 
 ## 模块化
-这些很多都是独立的 package, 可以单独使用. 从 [typepress][7] org 可以看出, 模块以独立的 rep 出现.
+这些很多都是独立的 package, 可以单独使用. 从 [typepress][9] org 可以看出, 模块以独立的 rep 出现.
 typepress 特别注意降低依赖, 写成独立 rep 是最基本的方法.
+
 
   [1]: https://github.com/mojombo/toml
   [2]: github.com/braintree/manners
@@ -60,4 +60,6 @@ typepress 特别注意降低依赖, 写成独立 rep 是最基本的方法.
   [4]: https://github.com/typepress/accessflags
   [5]: https://github.com/typepress/log
   [6]: https://github.com/typepress/db
-  [7]: https://github.com/typepress
+  [7]: https://github.com/typepress/core
+  [8]: https://github.com/typepress/types
+  [9]: https://github.com/typepress
