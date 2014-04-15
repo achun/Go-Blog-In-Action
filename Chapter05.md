@@ -23,7 +23,8 @@ RootPath 让 Go-Pages 博客支持子域名(站群)或者 CNAME (绑定域名)�
 JingYes只支持现代的浏览器, 不过html源代码非常简洁, 可以很方便的改写成其它 CSS 框架.
 
 ## TOML
-配置文件采用 TOML 格式, 这里分析下配置的 `table`. 
+配置文件采用 TOML 格式, 这里分析几个 `table`. 
+
 **defalut**
 
     [defalut]
@@ -51,6 +52,7 @@ m.Use(staticDefalutHandler) // defalut static 优先
 m.Use(rootPathHandlerForDomain) // 这个一旦执行 root 就改变了
 m.Use(staticHandlerForDomain) // 现在访问的静态文件就是站点的了
 ```
+
 **rootpath**
 
     [[rootpath]]
