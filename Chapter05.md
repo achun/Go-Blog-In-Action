@@ -8,19 +8,22 @@ RootPath 让 Go-Pages 博客支持子域名(站群)或者 CNAME (绑定域名)�
 
 ## static
 [static][5] 在设定好的静态文件目录下, 响应 `URL.Path` 请求的静态文件, 尝试发送对应的 Gzip 预压缩文件 `pathto/URL.Path.gz`. 如果没有找到 static 不产生 404 , 它什么都不做.
-不产生 404 有很多好处. 基于 Martini 的 Handler 一旦产生输出就会结束响应过程,  可以后续进行处理, 比如自定义 404 页面, 比如进行动态 Gzip 压缩, 然后再交给 static 进行输出, 又或者那根本就不是个静态页面, 交给后续的 Handler 处理, 如果最终无法匹配, Martini 会执行 `http.NotFound`.
+不产生 404 有很多好处. 基于 Martini 的 Handler 一旦产生输出就会结束响应过程,  不产生 404 就可以继续进行处理, 比如自定义 404 页面, 比如进行动态 Gzip 压缩, 然后再交给 static 进行输出, 又或者那根本就不是个静态页面, 交给后续的 Handler 处理, 如果最终无法匹配, Martini 会执行 `http.NotFound`.
 
 ## Liquid
-[Liquid][6] 包提供了基本 Liquid 模板支持. Jekyll 库对其进行了一些扩展, 如果要完全兼容 Jekyll 是个庞大的工程. 但是, 有必要实现一些扩展比如 [Global Variables][7]. 用到的时候再分析.
+[Liquid][6] 包提供了基本 Liquid 模板支持. Jekyll 对 liquid 其进行了一些扩展, 如果要完全兼容 Jekyll 是个庞大的工程. 但是, 有必要实现一些如 [Global Variables][7] 之类的. 用到的时候再分析.
+
 特别的, Liquid 中的 `include` tag 需要使用者自己实现 `IncludeHandler`, 参见 `liquid.Configuration`的接口.
 
 ## MarkDown
-轻量文本标记语言可以让你专注文章内容, 而不是为版式费神, 很适合书写博客. 有多种格式可选, 暂时支持最简单的 MarkDown, 在前后端都要有所支持. 前端支持 MarkDown 的编辑器很多, [markdown-editor][8] 是比较简单的一个. [blackfriday][9] 是 Go 语言下的 MarkDown 解析器.
-具体前端的博客文章编辑和提交这里不讨论了.
+轻量文本标记语言可以让书写者专注文章内容, 而不是为版式费神, 很适合书写博客. 有多种格式可选. Go-Pages 暂时支持最简单的 MarkDown 格式, 在前后端都要有所支持.
+
+前端支持 MarkDown 的编辑器很多, [markdown-editor][8] 是比较简单的一个. [blackfriday][9] 是 Go 语言下的 MarkDown 解析器. 前端的博客文章编辑和提交这里不讨论了.
 
 ## JingYes
 前端 CSS 框架更是有太多选择, 当前比较受欢迎的当属 BootStrap 和 PureCSS. Go-Pages 使用 [JingYes][10]. 这里不再列举可能用到的其他前端库.
-JingYes只支持现代的浏览器, 不过html源代码非常简洁, 可以很方便的改写成其它 CSS 框架.
+
+JingYes只支持现代的浏览器, 不过 html 源代码非常简洁, 可以很方便的改写成其它 CSS 框架.
 
 ## TOML
 配置文件采用 TOML 格式, 这里分析几个 `table`. 
@@ -76,6 +79,7 @@ m.Use(staticHandlerForDomain) // 现在访问的静态文件就是站点的了
 	Domain  = "localhost"
 	CategoryName = ["", "", "_layouts"]
 
+上述几个 package 给 Go-Pages 提供了最基础的动力. 流程也基本确定, coding...
 
   [1]: https://pages.github.com/
   [2]: http://jekyllrb.com/docs/structure/
