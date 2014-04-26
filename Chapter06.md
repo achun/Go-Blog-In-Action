@@ -72,7 +72,7 @@
 
     没问题, 12.3 我认识, 12.34567 我也能演
 
-汤姆那了张纸, 画了圈儿
+汤姆拿了张纸, 画个圈儿
 
     中了, 这个角色给你了, 这是场次安排分剧本, 好好练练, 走吧
     
@@ -99,7 +99,7 @@
 
 汤姆张大嘴巴足足90分钟才楞过神来
 
-    中, 就这吧, 给你拿好分剧本, 走走, 走吧
+    中, 就这吧, 给你拿好分剧本, 赶恁咧走吧
 
 琼斯双手接过剧本, 鞠躬, 走人. 殷特急了
 
@@ -124,16 +124,16 @@ PEG 的解析过程就像舞台剧, 固定的台词(待解析的文本), 固定�
     EOF            空文本也是允许的
     Whitespace     白字符
     NewLine        新行 LF,CR,LFCR,CRLF
-    Comment        注释 #
+    Comment        # 注释
     TableName      [tableName]
     ArrayOfTables  [[arrayOfTableName]]
     Key            键名
 
-注意, 上面的次序有效率问题, 甚至是必须的次序才能实现或者简化代码. 周知最初的场景和最后结束的场景是相同的, 如果没有 token 匹配, 那一定是语法错误, 如果匹配了就会进入下一个场景, 每个场景都有固定的 token 列表, 循环进行这个过程. 场景变化对应关系可以这样
+注意: 上面的次序有效率问题, 甚至是必须的次序才能实现或者简化代码. 周知最初的场景和最后结束的场景是相同的, EOF 出现在stageEmpty 中是理所当然的. 如果没有 token 匹配, 那一定是语法错误, 如果匹配了就会进入下一个场景, 每个场景都有固定的 token 列表, 重复进行这个过程. 场景变化对应关系可以这样描述
 
 stageEmpty
 
-     EOF            -> stageEmpty
+     EOF            -> stageEnd
      Whitespace     -> stageEmpty
      NewLine        -> stageEmpty
      Comment        -> stageEmpty
@@ -141,12 +141,12 @@ stageEmpty
      ArrayOfTables  -> stageEmpty
      Key            -> stageEqual
  
-stageEqual 可以这样定义
+stageEqual
 
     Whitespace     -> stageEqual
     Equal          -> stageValue
 
-stageValue 是这样
+stageValue
 
     Whitespace     -> stageEqual
     ArrayLeftBrack -> stageArray
@@ -179,14 +179,14 @@ stageStringArrayComma
     Comma          -> stageStringArray
     ArrayRightBrack-> stageArrayPop
 
-(有些地方省略了允许回车和注释) 以此类推, 这里面
+(为便于阅读, 有些 stage 中省略新行和注释) 以此类推, 其中
 
-    Array 是可递归的, 其深度影响 stageArrayPop 的结果
+    Array 是可递归的, 其深度影响 stageArrayPop 的结果, stageArrayPop 这个词是虚拟的, 具体实现可能有其他方法.
     Comma 的判断是可以优化的
 
 完全手工构造场景变化表是比较痛苦的, 可以把 token 匹配和文法合法性检查分开, 减省 stage 的数量. 比如 stageStringArrayComma 就可以减省, 留给接收 token 的代码处理 token 的顺序合法性. 当然实现方法肯定不止一种.
 
-你会发现不同语言实现的 PEG, 在表达式用词上甚至都不一致, 并没有具体实现代码, PEG 也确实不需要规定确切的用词, 因为 PEG 定义的就是逻辑规则, 而不是具体的 token 词义.
+你会发现不同语言实现的 PEG, 在表达式用词上甚至都不一致. PEG 也确实不需要规定确切的用词, 因为 PEG 定义的就是逻辑规则, 而不是具体的 token 词义.
 
 
   [1]: http://en.wikipedia.org/wiki/Parsing_expression_grammar
