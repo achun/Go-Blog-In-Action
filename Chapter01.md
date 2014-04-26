@@ -12,7 +12,7 @@
  - Router 对象也是非并发安全的, 服务器运行前使用.
  - Context 对象是在 http Request 时动态创建的.
  - 所有要使用的对象必须先 Map/MapTo.
- - 对 http.ResponseWriter 任何的 Write 都会终止 http Request.
+ - 对 http.ResponseWriter 任何的 Write 都会完结响应. 内部方法是终止了响应 Handler.
  - 善用 Context 对象的 Next 方法会产生奇效.
 
 
@@ -23,19 +23,19 @@ Package选择与修改
 
  - Martini社区 [martini-contrib][8]
 
-    这是一组社区提供的 Martini package, 可能会使用一些. 事实上如果您研究过 Martini 和这些 contrib package 后您会发现一个事实: 真的解耦了.
+    Martini 社区贡献的 package, 可能会使用一些.如果您研究了 Martini 和这些 contrib package, 您会发现真的解耦了.
 
  - 角色控制 [accessflags][9]
 
-    角色控制是应用中的常见需求, accessflags 基于 Martini 实现了一个通过 interger 标记值控制 Martini.Handler 是否允许访问. 可以用于角色控制.
+    角色控制是应用中的常见需求, accessflags 基于 Martini 实现了一个通过 interger 标记值控制 Martini.Handler 是否允许访问. 可以用于角色控制. (已被社区收录)
 
- - 配置文件操作 [tom-toml][10]
+ - 配置文件支持 [tom-toml][10]
 
-    笔者重新写了一个 TOML 解析器 tom-toml, 参见文章[有关tom-toml的一些事儿][11].
+    笔者重新写了一个 TOML 解析器 tom-toml, 参见文章[有关tom-toml的一些事儿][11], 和第六章的内容.
 
  - 数据库操作 [typepress/db][12]
 
-    [upper.io/db][13] 是 [gosexy/db][14] 的重构版本. 代码质量有很大提高. 但是同样的包路径给社区开发造成了同样的问题. 为了以后方便笔者 fork 了一个 github 版本 [typepress/db][15].
+    [upper.io/db][13] 是 [gosexy/db][14] 的重构版本. 代码质量很高. 但是包路径问题同样给 import 造成了问题. 为方便, 笔者 fork 了一个 github 版本 [typepress/db][15].
     upper.io/db 为常见的 SQL/NoSQL 数据库提供了统一的调用接口, 这是非常难能可贵的.
 
  - 日志支持 [typepress/log][16]
@@ -50,12 +50,12 @@ Package选择与修改
  - 国际化支持 [i18n][20]
 
     这是一个简洁的 i18n 支持接口, 仿照 fmt.Sprint, fmt.Sprintf 的形式.
-    在使用中即便暂时没有国际化支持的需求, 使用 i18n 所带来的消耗也是极小的. 完全可以当作 fmt.Sprint, fmt.Sprintf 两个方法的代理.
+    在使用中即便暂时没有国际化支持的需求, 使用 i18n 所带来的消耗也是极小的. 完全可以当作 fmt.Sprint, fmt.Sprintf 使用.
 
 依赖注入
 ========
 
-Martini 的核心就是依赖注入, 解耦支持. 那依据依赖注入的思路, 上述的 package 被替换掉应该不是一件复杂的事情. 随时引入依赖注入也应该很容易. 也许吧. 实践中我会关注这个事情.
+Martini 的核心就是实现依赖注入, 高度解耦. 依据依赖注入的思路, 上述的 package 被替换掉应该不是一件复杂的事情. 随时引入依赖注入也应该很容易. 也许吧, 实践中我会关注这个事情.
 
 
   [1]: https://github.com/achun/Go-Blog-In-Action/tree/master
