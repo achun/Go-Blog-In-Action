@@ -181,9 +181,11 @@ stageStringArrayComma
 
 (为便于阅读, 有些 stage 中省略新行和注释) 以此类推, 其中
 
-    Array 是可递归的, 也就是左递归问题, stageArrayWho 有多种实现方法, 需要专门的篇幅描述. 本文不讨论. 
+    Array 是可递归的, stageArrayWho 有多种实现方法, 需要专门的篇幅描述. 本文不讨论. 
     stageStringArray 也受左递归影响, 肯定不能这么简单就得到 stageXxxxArray. 本文不讨论.
     Comma 的判断是可以优化的, 比如放到生成 Toml 时检查语法完整性.
+
+注: Array 的递归甚至可以扩展为左递归, 理论上 PEG 要求消除左递归文法, 手工硬编码自然是直接解决了递归问题.
 
 完全手工构造场景变化表是比较痛苦的, 可以把 token 匹配和文法合法性检查分开, 减省 stage 的数量. 比如 stageStringArrayComma 就可以减省, 留给其他代码处理.
 
