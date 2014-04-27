@@ -159,8 +159,8 @@ stageValue
 stageArray
 
     Whitespace     -> stageEqual
-    ArrayLeftBrack -> stageArray
-    ArrayRightBrack-> stageArrayPop
+    ArrayLeftBrack -> stageArrayWho
+    ArrayRightBrack-> stageArrayWho
     String         -> stageStringArray
     Boolean        -> stageBooleanArray
     Integer        -> stageIntegerArray
@@ -181,12 +181,13 @@ stageStringArrayComma
 
 (为便于阅读, 有些 stage 中省略新行和注释) 以此类推, 其中
 
-    Array 是可递归的, 其深度影响 stageArrayPop 的结果, stageArrayPop 这个词是虚拟的, 具体实现可能有其他方法.
-    Comma 的判断是可以优化的
+    Array 是可递归的, 也就是左递归问题, stageArrayWho 有多种实现方法, 需要专门的篇幅描述. 本文不讨论. 
+    stageStringArray 也受左递归影响, 肯定不能这么简单就得到 stageXxxxArray. 本文不讨论.
+    Comma 的判断是可以优化的, 比如放到生成 Toml 时检查语法完整性.
 
-完全手工构造场景变化表是比较痛苦的, 可以把 token 匹配和文法合法性检查分开, 减省 stage 的数量. 比如 stageStringArrayComma 就可以减省, 留给接收 token 的代码处理 token 的顺序合法性. 当然实现方法肯定不止一种.
+完全手工构造场景变化表是比较痛苦的, 可以把 token 匹配和文法合法性检查分开, 减省 stage 的数量. 比如 stageStringArrayComma 就可以减省, 留给其他代码处理.
 
-你会发现不同语言实现的 PEG, 在表达式用词上甚至都不一致. PEG 也确实不需要规定确切的用词, 因为 PEG 定义的就是逻辑规则, 而不是具体的 token 词义.
+你会发现不同语言实现的 PEG, 在表达式用词上甚至都不一致. PEG 确实没有规定确切的用词, 因为 PEG 定义只是逻辑, 而不是具体的 token 词义.
 
 
   [1]: http://en.wikipedia.org/wiki/Parsing_expression_grammar
