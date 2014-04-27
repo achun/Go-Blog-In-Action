@@ -179,17 +179,18 @@ stageStringArrayComma
     Comma          -> stageStringArray
     ArrayRightBrack-> stageArrayPop
 
-(为便于阅读, 有些 stage 中省略新行和注释) 以此类推, 其中
+以此类推, 其中
 
+    为便于阅读, 上述定义省略部分新行和注释, 这不会影响理解.
     Array 是可递归的, stageArrayWho 有多种实现方法, 需要专门的篇幅描述. 本文不讨论. 
     stageStringArray 也受左递归影响, 肯定不能这么简单就得到 stageXxxxArray. 本文不讨论.
     Comma 的判断是可以优化的, 比如放到生成 Toml 时检查语法完整性.
 
-注: Array 的递归甚至可以扩展为左递归, 理论上 PEG 要求消除左递归文法, 手工硬编码自然是直接解决了递归问题.
+**注: Array 的递归甚至可以扩展为左递归, 理论上 PEG 要求消除左递归文法, 手工硬编码自然是直接解决了递归问题.**
 
 完全手工构造场景变化表是比较痛苦的, 可以把 token 匹配和文法合法性检查分开, 减省 stage 的数量. 比如 stageStringArrayComma 就可以减省, 留给其他代码处理.
 
-你会发现不同语言实现的 PEG, 在表达式用词上甚至都不一致. PEG 确实没有规定确切的用词, 因为 PEG 定义只是逻辑, 而不是具体的 token 词义.
+你会发现不同语言实现的 PEG, 在表达式用词上甚至都不一致. PEG 确实没有规定确切的用词, 因为 PEG 只定义了解析中的逻辑关系.
 
 
   [1]: http://en.wikipedia.org/wiki/Parsing_expression_grammar
