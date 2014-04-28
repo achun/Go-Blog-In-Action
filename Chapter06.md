@@ -117,9 +117,9 @@ PEG 的解析过程就像舞台剧, 固定的台词(待解析的文本), 固定�
 
     1234.567
 
-到 4 时, ItsInteger 和 ItsFloat 都认为可能是自己代表的 token, 都反馈 "可能是", SMaybe 状态. 出现了 ".", ItsInteger 返回"不认识" SNot 状态, ItsFloat 继续返回 SMaybe. 后续的字符都完毕 ItsFloat 都是可识别的, 都返回 SMaybe. 最后 ItsFloat 拿到 EOF, 表示确定 "确定是" SYes 状态, 对于单独的 token 就是这么一个过程.
+直到字符 "4" 时, ItsInteger 和 ItsFloat 都认为可能认识这个 token, 都反馈 "可能是", SMaybe 状态. 出现了 ".", ItsInteger 返回"不认识" SNot 状态, ItsFloat 继续返回 SMaybe. 后续的字符都完毕 ItsFloat 都可识别, 都返回 SMaybe. 最后 ItsFloat 拿到 EOF 后确认认识, 返回 "确定是" SYes 状态. 识别 token 就是这么一个过程.
 
-那么整个的解析流程就像舞台剧的分幕(场景), 没个场景都明确允许出现哪些 token, 以 TOML 语法为例, 最初场景命名为 stageEmpty 允许的 token 包括:
+那么, 整个的解析流程就像舞台剧的场景, 每个场景是清楚会出现哪些 token 的. 以 TOML 语法为例, 开始场景命名为 stageEmpty, 可允许出现的 token 包括:
 
     EOF            空文本也是允许的
     Whitespace     白字符
@@ -129,7 +129,7 @@ PEG 的解析过程就像舞台剧, 固定的台词(待解析的文本), 固定�
     ArrayOfTables  [[arrayOfTableName]]
     Key            键名
 
-注意: 上面的次序有效率问题, 甚至是必须的次序才能实现或者简化代码. 周知最初的场景和最后结束的场景是相同的, EOF 出现在stageEmpty 中是理所当然的. 如果没有 token 匹配, 那一定是语法错误, 如果匹配了就会进入下一个场景, 每个场景都有固定的 token 列表, 重复进行这个过程. 场景变化对应关系可以这样描述
+注: 上面的次序有效率问题, 甚至是必须的次序才能实现或简化代码. 周知开始场景和结束场景是相同的, EOF 出现在stageEmpty 中是理所当然的. 如果没有 token 被匹配, 那一定是语法错误. 如果匹配, 就进入下一个场景, 每个场景都有固定的 token 列表, 循环这个过程直到重回开始场景识别到 EOF. token 和场景变化可以这样描述
 
 stageEmpty
 
@@ -184,13 +184,13 @@ stageStringArrayComma
     为便于阅读, 上述定义省略部分新行和注释, 这不会影响理解.
     Array 是可嵌套的, stageArrayWho 有多种实现方法, 需要专门的篇幅描述. 本文不讨论. 
     stageStringArray 也受嵌套影响, 肯定不能这么简单就得到 stageXxxxArray. 本文不讨论.
-    Comma 的判断是可以优化的, 比如放到生成 Toml 时检查语法完整性.
+    如果某个 token 在解析时做不到验证完整性, 可以放到生成 Toml 时再检查.
 
 **注: 在本新手眼里 Array 的嵌套被当作左递归的一种, 理论上 PEG 要求消除左递归文法, 先手工硬编码解决这问题吧.**
 
 完全手工构造场景变化表是比较痛苦的, 可以把 token 匹配和文法合法性检查分开, 减省 stage 的数量. 比如 stageStringArrayComma 就可以减省, 留给其他代码处理.
 
-你会发现不同语言实现的 PEG, 在表达式用词上甚至都不一致. PEG 确实没有规定确切的用词, 因为 PEG 只定义了解析中的逻辑关系.
+你会发现不同语言实现的 PEG, 在表达式文法和用词上甚至不一致. PEG 确实没有规定确切文法用词, PEG 关注的是解析中的逻辑关系.
 
 
   [1]: http://en.wikipedia.org/wiki/Parsing_expression_grammar
