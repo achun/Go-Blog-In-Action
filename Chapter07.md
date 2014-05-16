@@ -38,8 +38,8 @@ baz      = 3foo               ; 3 次重复 foo, 等同 3*3foo
 number   = 1*DIGIT ["." 1*DIGIT]    ; Optional 可选规则, 用中括号包裹, 等同下面两种写法
 number   = 1*DIGIT  *1("." 1*DIGIT)
 number   = 1*DIGIT 0*1("." 1*DIGIT)
-foobar   = <foo bar is foo bar> baz ; 用尖括号括起来, 一个规则名就可以使用空格这些
-                                    ; ASCII 可显示符号了, "<" *(%x20-3D / %x3F-7E) ">"
+foobar   = <foo bar is foo bar> baz ; prose-val 用尖括号括起来, 值就可以包含空格和VCHAR
+                                    ; 范围是 *(%x20-3D / %x3F-7E)
 ```
 上面的描述用的也是 ABNF, 事实上这些文字就源自 RFC5234 规范.
 级联规则就是一个顺序匹配的序列, 好比 Seq 顺序规则或者叫 And 规则. 替代好比 Or 规则或者叫 Any 规则.
