@@ -160,7 +160,171 @@ Num     = 1*(0-9)         ; Num     = 1*(0-9)
 
 # 解析器
 
-面包会有的
+ABNF 具有很强的表达能力, 这里以 ABNF 为基础分析要分离出的规则元素.
+类终结符和非终结符, 可以这样描述
+
+1. atom   终结符, 就是个对输入字符进行判断的函数
+2. term   非终结符, 可能有多个或多层 term/atom  组合, 也可用 group 这个词
+3. factor 抽象接口, term 和 atom 的共性接口, 代码实现需要抽象接口
+
+用 group 替换 term 在语义上也是成立的, 一个独立的 term 也可以看作只有一项规则元素的 group.
+
+元素关系可以分
+
+1. Concatenation 级联匹配
+2. Alternation 替代匹配
+
+很明显单独的 atom 可以看作只有一项的级联, group 需要选择两者之一. 那么 group 需要设计可以增加规则元素的接口
+
+1. Add(factor)
+
+在做解析的时候常采用循环的方法, 某个循环结束后会产生两个状态
+
+1. ok  解析是否成功
+2. end 解析是否结束
+
+很明显, 任何时候遇到 end, 无论处于那一级循环中, 都要终止解析. 如果不是 end, 那么依据元素关系和解析是否成功进行判断, 决定尝试匹配下一个规则元素或者返回 !ok, !end.
+
+其他
+
+1. 给 term/group, atom/factor 命名或设定 id
+2. 设置 term/group, atom/factor 的重复属性 repeat.
+
+综合上述分析大致的接口设计如下
+
+```
+type Factor interface {
+	/**
+	每个 Factor 都有一个规则 id, 分两种情况
+	Atom  通过 Term.Factor 方法产生, 等于传入 Term.Factor 的 id.
+	Group id 由 Grammar 内部计数器产生.
+	*/
+	Id() int
+	
+	/**
+	返回 Factor 的风格. 常量 KGrammar / KGroup / KFactor.
+	这里简单用 int 类型区分
+	*/
+	Kind() int
+	
+	/**
+	Mode 返回 Factor 所使用的匹配模式
+	Atom 总是返回常量 MConcatenation.
+	*/
+	Mode() int
+	
+	/**
+	匹配脚本
+	参数: Scanner 是个 rune 扫描器, Record 用于记录解析过程.
+	返回值:
+		ok     是否匹配成
+		end    是否终止匹配,  事实上由 Record 决定是否终止匹配
+	*/
+	Process(script Scanner, rec Record) (ok, end bool)
+}
+
+// 语法接口也基于 Factor
+type Grammar interface {
+	Factor
+	// 生成一个 Term 中间件, 默认重复 1 次, 1*1
+	Term() Term
+	// 为 Grammar.Process 设置最初规则.
+	Start(rule ...Factor) Grammar
+	// 设置为 Concatenation 匹配模式
+	Concatenation() Grammar
+	// 设置为 Alternation 匹配模式
+	Alternation() Grammar
+}
+
+/**
+term 是个中间件, 最终要转化为 Group/Factor
+*/
+type Term interface {
+	Factor
+	// 为 Term 命名.
+	Named(string) Term
+	
+	/**
+	设置 Repeat, 参数 a, b 对应 ABNF 的 repeat 定义 a*b.
+	如果 b < a, 把 b 作为 0 处理.
+	*/
+	Repeat(a, b uint) Term
+	
+	// 转为 Group
+	Group() Group
+	
+	// 由 Atom 转为 Factor
+	Atom(id int, atom Atom) Factor
+}
+
+/**
+Group 具有 Add 方法
+*/
+type Group interface {
+	Factor
+	// 设置为 Concatenation 匹配模式
+	Concatenation() Group
+	// 设置为 Alternation 匹配模式
+	Alternation() Group
+	/**
+	添加一组规则.
+	如果没有通过检查返回 nil
+	*/
+	Add(rule ...Factor) Group
+}
+```
+
+从中可以看出, Term 是个过渡接口, 设计这个的原因是:
+
+ABNF 文法中的规则定义和程序中的类型定相似, 次序无所谓, 只要有定义. 很明显实现解析器的时候, 这些元素是以变量的形式存在的, 我们需要先生成变量, 然后在进行关系组合. 笔者实现了一个
+
+```
+// 丑陋的 Term 表现四则运算
+// g 是个 Grammar 对象, 起个名字叫 Arithmetic
+g := New("Arithmetic")
+
+// 先生成规则元素, Atom 的参数 id 是预定义的常量
+expr := g.Term().Named("Expr").Group()
+end := g.Term().Named("EOF").Atom(IdEof, ItsEOF)
+num := g.Term().Named("Num").Atom(NUM, ItsNum)
+
+// GenLiteral 是个辅助函数函数, 生成字符串匹配 Atom
+C := g.Term().Named("(").Atom(LPAREN, GenLiteral(`(`, nil))
+D := g.Term().Named(")").Atom(RPAREN, GenLiteral(`)`, nil))
+
+term := g.Term().Named("Term").Group()
+sum := g.Term().Zero().Named("Sum").Group()
+factor := g.Term().Named("Factor").Group().Alternation()
+mul := g.Term().Zero().Named("Mul").Group()
+
+sumOp := g.Term().Named("SumOp").Group().Add(
+	g.Term().Named("+").Atom(ADD, GenLiteral(`+`, nil)),
+	g.Term().Named("-").Atom(SUB, GenLiteral(`-`, nil)),
+).Alternation()
+
+mulOp := g.Term().Named("MulOp").Group().Add(
+	g.Term().Named("*").Atom(MUL, GenLiteral(`*`, nil)),
+	g.Term().Named("/").Atom(QUO, GenLiteral(`/`, nil)),
+).Alternation()
+
+nested := g.Term().Named("Nested").Group().Add(C, expr, D)
+
+// 组合规则元素
+g.Start(end, expr)
+
+expr.Add(term, sum)
+term.Add(factor, mul)
+sum.Add(sumOp, term)
+mul.Add(mulOp, factor)
+
+factor.Add(num, nested)
+
+// 这里省略了 script 和 rec 的生成
+g.Process(script, rec)
+```
+
+Term 的出现, 虽然逻辑上完整了, 代码写出来看上去很丑陋. 看来只有通过辅助函数简化代码了.
+
 
   [1]: http://zh.wikipedia.org/wiki/%E6%89%A9%E5%B1%95%E5%B7%B4%E7%A7%91%E6%96%AF%E8%8C%83%E5%BC%8F
   [2]: https://www.google.com.hk/search?q=BNF%20EBNF
