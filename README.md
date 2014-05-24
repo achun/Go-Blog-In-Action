@@ -28,7 +28,14 @@ Go语言博客实践
     - 第1节：[配置基本参数](Chapter04.md#配置基本参数)
     - 第2节：[基本功能](Chapter04.md#基本功能)
     - 第3节：[模块化](Chapter04.md#模块化)
-
+- 第5章: [静态博客](Chapter05.md) 未完待续, 穿插解析器部分
+- 第6章: [解析器与舞台剧](Chapter06.md)
+    - 第1节：[汤姆的故事](Chapter06.md#汤姆的故事)
+    - 第2节：[PEG](Chapter06.md#peg)
+- 第7章: [解析器与ABNF](Chapter07.md)
+    - 第1节: [ABNF](Chapter07.md#abnf)
+    - 第2节: [四则运算表达式](Chapter07.md#四则运算表达式)
+    - 第3节: [解析器](Chapter07.md#解析器)
 
 
 ----------
