@@ -195,9 +195,9 @@ atom 可以看作只有一项的级联, group 需要选择两者之一. 那么 g
 ```go
 type Factor interface {
 	/**
-	每个 Factor 都有一个规则 id, 分两种情况
-	Atom  通过 Term.Factor 方法产生, 等于传入 Term.Factor 的 id.
-	Group id 由 Grammar 内部计数器产生.
+	每个 Factor 都有一个唯一规则 ID
+	Grammar 的 id 固定为 0.
+	Atom, Group 自动生成或者设定. 自动生成的 ID 为负数.
 	*/
 	Id() int
 	
@@ -226,12 +226,20 @@ type Factor interface {
 // 语法接口也基于 Factor
 type Grammar interface {
 	Factor
-	// 生成一个 Term 中间件, 默认重复 1 次, 1*1
-	Term() Term
+	/**
+	生成一个 Term 过渡对象.
+	初始重复 1 次, 1*1.
+	初始匹配模式为 MConcatenation.
+	参数 id 如果 <= 0 或者发生重复, 那么自动生成负数 id.
+	*/
+	Term(id int) Term
+	
 	// 为 Grammar.Process 设置最初规则.
 	Start(rule ...Factor) Grammar
+	
 	// 设置为 Concatenation 匹配模式
 	Concatenation() Grammar
+	
 	// 设置为 Alternation 匹配模式
 	Alternation() Grammar
 }
@@ -241,7 +249,7 @@ term 是个中间件, 最终要转化为 Group/Factor
 */
 type Term interface {
 	Factor
-	// 为 Term 命名.
+	// 为 Term 命名. 不检查名称唯一性.
 	Named(string) Term
 	
 	/**
@@ -254,7 +262,7 @@ type Term interface {
 	Group() Group
 	
 	// 由 Atom 转为 Factor
-	Atom(id int, atom Atom) Factor
+	Atom(atom Atom) Factor
 }
 
 /**
