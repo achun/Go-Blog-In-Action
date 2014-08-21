@@ -37,6 +37,10 @@ Go语言博客实践
     - 第2节: [四则运算表达式](Chapter07.md#四则运算表达式)
     - 第3节: [解析器](Chapter07.md#解析器)
     - 第4节: [手工至上](Chapter07.md#手工至上)
+- 第8章: [Rivet](Chapter08.md)
+    - 第1节: [Router](Chapter08.md#router)
+    - 第2节: [Rivet](Chapter08.md#rvet)
+    - 第3节: [Module](Chapter08.md#module)
 
 
 ----------
