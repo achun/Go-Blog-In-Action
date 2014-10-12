@@ -14,7 +14,7 @@ Blog 系统属于非常典型的 WEB 应用. 通常开发者都会首先考虑�
 工具选择
 
 * 配置文件操作
-	- [pelletier/go-toml][0] 修改版本 [achun/go-toml][1]
+	- [pelletier/go-toml][0] 修改版本 [achun/tom-toml][1]
 * http Server
 	- [pelletier/manners][4] 支持 ShutDown
 * http Request 路由
@@ -120,7 +120,7 @@ type Store interface {
 看完上面罗罗嗦嗦的解说, 你感觉到工具链的好处了吧! 是的, 用工具链的好处就是船小好调头. 如果你用完整的框架, 当你发现框架的局限不足, 或者你暂时没有理解清楚, 没能找到框架下的解决方法. 基本上你是不会去弄个自己的分支的. 因为你的分支不一定会被原作者接受, 而现实是你还要在意原作者的更新, 这样你会很尴尬. 用工具链不必担心这个, 你可以随意分支, 按需求改写, 更或者是中途换掉一个工具. 这相对容易很多.
 
 [0]: https://github.com/pelletier/go-toml
-[1]: https://github.com/achun/go-toml
+[1]: https://github.com/achun/tom-toml
 [2]: https://github.com/mojombo/toml
 [3]: https://github.com/achun/go-toml/blob/master/README_CN.md
 [4]: https://github.com/braintree/manners
