@@ -2,6 +2,8 @@
 
 [BNF][1] 是巴科斯范式, 英语：Backus Normal Form 的缩写, 也被称作 巴科斯-诺尔范式, 英语: Backus–Naur Form. Backus 和 Naur 是两位作者的名字. 必须承认这是一项伟大的发明, BNF 开创了描述计算机语言语法的符号集形式. 如果您还不了解 BNF, 需要先 [Google][2] 一下.  随时间推移逐渐衍生出一些扩展版本, 这里直接列举几条 ABNF [RFC5234][3] 定义的文法规则.
 
+**PS: 后续代码实现部分, 早期的代码思路不够精简, 在现实中很难应用. 后期又做了纯规则的实现, 请读者选择性阅读, 以免浪费您宝贵的时间**
+
 ```ABNF
 ; 注释以分号开始
 name     = elements         ; name 规则名, elements 是一个或多个规则名, 本例只是示意
@@ -159,6 +161,8 @@ Num     = 1*(0-9)         ; Num     = 1*(0-9)
 
 
 # 解析器
+
+**这是早期思路所写的代码, 事实上我自己用起来也很不舒服, 也一直没有放出来, 就当做失败的例子吧**
 
 ABNF 具有很强的表达能力, 这里以 ABNF 为基础分析要分离出的规则元素.
 终结符和非终结符, 可以这样描述
@@ -340,7 +344,142 @@ Term 的出现, 虽然逻辑上完整了, 代码写出来看上去很丑陋. 看
 **手工代码构造的先词法分析后语法分析的解析器是最快的**
 
 
-  [1]: http://zh.wikipedia.org/wiki/%E6%89%A9%E5%B1%95%E5%B7%B4%E7%A7%91%E6%96%AF%E8%8C%83%E5%BC%8F
-  [2]: https://www.google.com.hk/search?q=BNF%20EBNF
-  [3]: http://tools.ietf.org/html/rfc5234
-  [4]: http://zh.wikipedia.org/wiki/%E5%B7%A6%E9%81%9E%E6%AD%B8
+# 再接再厉
+
+[Zxx][] 是很偶然的一次 Q 群聊天玩笑的产物, 到目前为止这依然是个设想(玩笑). 好在新的 [zxx abnf][] 产生了.
+这次尝试了另外的思路, 到目前为止感觉还不错.
+
+如前文所述, 可以从 ABNF 规范中抽离出独立的匹配规则, 下文用 R 代表一个规则.
+
+1. Zero      规则对应 R* 匹配零次或多次
+2. Option  规则对应 R{0,1} 匹配零次或一次
+3. More     规则对应 R{1,} 匹配一次或多次
+4. Any       规则对应多个规则匹配任意一个
+5. Seq       规则对应多个规则被顺序匹配
+6. Term     所有规则是有 Term 组成的.
+
+这些只是基本的匹配规则逻辑. 毫无疑问, 文法解析是从一个字节一个字节进行的, 前文的实现也是这么思考的.
+现在换个角度考虑问题:
+
+	字符串也好, 叫做 Token 也罢, 真正要做的是判断一个 Token 是否满某个条件.
+
+我们知道解析的最小单位是 Token, 我们个 Token 加一个成员方法
+
+```go
+// Has 返回 token 等于 tok 或者包括 tok
+func (token Token) Has(tok Token) bool
+
+// 这里截取部分 Token 定义
+const (
+	EOF Token = iota
+	Type // 分类标记
+	// 预定义类型
+	BYTE
+	STRING
+	UINT
+	INT
+)
+```
+
+那么 Type.Has(INT) 的值就为 true.
+
+即 Token 的 Has 方法为前述的 ABNF 规则提供了最底层的判断. Token 的类型不再重要,  Has 保证了一切.
+现实中可从扫描器得到 Token. 而 [zxx abnf][] 只关心相关的规则定义.
+
+列举下相关定义, 有些注释省略, 完整代码在  [zxx abnf][]:
+
+```go
+// Flag 表示规则匹配 Token 后的状态
+type Flag int
+
+const (
+	Matched  Flag = 1 << iota // 匹配成功, 消耗掉一个 Token
+	Standing                  // 规则成立, 可以继续匹配 Token
+	Finished                  // 规则完整, 不再接受匹配 Token
+
+	// 下列标记由算法维护, Match 返回值不应该包含这些标记.
+	Handing // 正在进行处理中(Match), 可用来检查发生递归
+	Cloning // 正在进行克隆
+	Custom  // 通用标记位, 包括更高的位都由 Match 自定义用途,
+)
+
+type Rule interface {
+	// Match 返回匹配 tok 的状态标记. 实现必须遵守以下约定:
+	//
+	// 返回值为下列之一:
+	//
+	//	0
+	// 	Matched
+	// 	Matched|Standing
+	// 	Matched|Finished
+	// 	Finished
+	//
+	// 自动重置:
+	//
+	// 规则状态为 0, Finished, Matched|Finished 时自动重置, 可接受新的匹配.
+	//
+	// EOF 重置: 当最终状态为
+	//
+	//	Matched 最终状态是不确定完整匹配.
+	//	Matched|Standing 最终状态是完整匹配.
+	//
+	// 时使用 Match(EOF) 重置规则并返回 Finished, 其它状态不应该使用 EOF 来重置.
+	//
+	// 末尾完整测试:
+	//
+	// 类似 Seq(Term(XX),Option(YY),Option(ZZ)) 规则, 单个 XX 也是合法的,
+	// 但是由于 Option 的原因, 匹配单个 XX 的状态为 Matched,
+	// 因此再匹配一个不可能出现的 Token, 可以测试规则是否完整.
+	//
+	Match(tok Token) Flag
+
+	// Bind 应只在递归嵌套规则变量时使用, 先声明规则变量后绑定规则.
+	// 其他情况都不应该使用 Bind.
+	Bind(Rule)
+
+	// Clone 返回克隆规则, 这是深度克隆, 但不含递归.
+	// 递归规则在 Match 中通过判断 Handing 标记及时建立的.
+	Clone() Rule
+
+	// IsOption 返回该规则是否为可选规则.
+	// 事实上除了 Option 是明确的可选规则外, 其它组合可能产生事实上的可选规则.
+	IsOption() bool
+}
+
+// Term 用来包装 Token
+
+// Term 产生任一 Token 匹配规则. Match 方法返回值为:
+//
+//	0
+//	Matched | Finished
+//	Finished	当 EOF 重置或者 tok == nil
+//
+func Term(tok ...Token) Rule
+func Option(rule Rule) Rule
+func Once(rule Rule) Rule
+
+// More 产生重复匹配规则.
+// rule 必须初次匹配成功, 然后当 rule 匹配结果为 0, Finished 时尝试 sep 匹配,
+// 如果 sep 匹配成功则继续匹配 rule.
+//
+func More(rule, sep Rule) Rule
+
+// Any 产生任一匹配规则.
+// 不要用 Any(rule, Term()) 替代 Option, 那会让 IsOption() 不可靠.
+func Any(rule ...Rule) Rule
+
+// Seq 产生顺序匹配规则
+func Seq(rule ...Rule) Rule 
+```
+
+你可能注意到其中没有 Zero 规则, 因为不需要它, Flag 的 Finished 隐含的兼容了 Zero 规则.
+只有 Flag(0) 才表示失败, Finished 虽然表示 Token 未被匹配, 但是规则是成立的, Token 由后续规则继续匹配好了.
+
+**先写这么多, 就 5 个规则, 写多了反而添乱**
+
+[1]: http://zh.wikipedia.org/wiki/%E6%89%A9%E5%B1%95%E5%B7%B4%E7%A7%91%E6%96%AF%E8%8C%83%E5%BC%8F
+[2]: https://www.google.com.hk/search?q=BNF%20EBNF
+[3]: http://tools.ietf.org/html/rfc5234
+[4]: http://zh.wikipedia.org/wiki/%E5%B7%A6%E9%81%9E%E6%AD%B8
+[Zxx]: https://github.com/ZxxLang/zxx
+[zxx abnf]: https://github.com/ZxxLang/zxx/tree/master/abnf
