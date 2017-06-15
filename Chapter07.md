@@ -54,9 +54,9 @@ foobar   = <foo bar is foo bar> baz ; prose-val 用尖括号括起来, 值就可
 ; 错误写法一
 ; Expr 表示要解决的问题, 四则运算规则
 Expr = Num /               ; Num 表示数字, 仅仅一个数字也可以构成Expr
-	   Num   Op   Expr /   ; Op  运算符 
-	   "("   Expr  ")" /   ; 括号会改变 Expr 运算优先级
-	   Expr  Op   Expr     ; 最复杂的情况
+       Num   Op   Expr /   ; Op  运算符
+       "("   Expr  ")" /   ; 括号会改变 Expr 运算优先级
+       Expr  Op   Expr     ; 最复杂的情况
 
 Op   = "+" / "-" / "*" / "/" ; 运算符的定义
 Num  = 1*(0-9)               ; 最简单的正整数定义
@@ -72,11 +72,11 @@ Num  = 1*(0-9)               ; 最简单的正整数定义
 ; 错误写法二
 Expr   = Term   *Mul / ; Mul 是乘法, *Mul 表示可能有或没有, Term 就是要绕的圈子了.
          Term   *Quo   ; 除法和乘法一样, Term 这个圈子其实表示的还是 Expr.
-Term   = Factor *Add / ; 一个圈子明显不行, 再绕个圈子 Factor,  
+Term   = Factor *Add / ; 一个圈子明显不行, 再绕个圈子 Factor,
          Factor *Sub   ; 这两行描述加减法, 逻辑都没错吧, 都是可能有, 也可能没有
 
 Factor = Num /         ; 绕再多圈子总是要回来的, 数字总要有吧
-	     "(" Expr ")"  ; 括号的运算总要有吧
+         "(" Expr ")"  ; 括号的运算总要有吧
 
 Add    = "+" Term      ; 一旦出现运算符, 后面一定会有后续的表达式吧
 Sub    = "-" Term
@@ -100,7 +100,7 @@ Add    = "+" Term  ; 最后一个又回到 Term
 
 **终结符在推导循环中不能首次匹配**
 
-问题的逻辑是: 
+问题的逻辑是:
 
 **可以穷举开始和结尾, 不能穷举中间过程.**
 
@@ -127,9 +127,9 @@ Mul    = MulOp  Factor ; 乘积的运算,
 Factor = Num /         ; 引向终结
          "(" Expr ")"  ; 括号永远都在
 
-Num    = 1*(0-9)      ; 数字, 这可以是独立的终结符
-SumOp  = "+" / "-"    ; 加或者减, 可以叫做求和, 小技巧
-MulOp  = "*" / "/"    ; 乘或者除, 可以叫做乘积
+Num    = 1*(0-9)       ; 数字, 这可以是独立的终结符
+SumOp  = "+" / "-"     ; 加或者减, 可以叫做求和, 小技巧
+MulOp  = "*" / "/"     ; 乘或者除, 可以叫做乘积
 ```
 
 把这两种写法左右排列, 看的更清楚
@@ -137,18 +137,18 @@ MulOp  = "*" / "/"    ; 乘或者除, 可以叫做乘积
 ```ABNF
 ; 错误写法                ; 正确写法
 Expr   = Term   *Mul /    ; Expr   = Term   *Sum   ; 蛇头
-	     Term   *Quo      ; Term   = Factor *Mul   ; 蛇头
+         Term   *Quo      ; Term   = Factor *Mul   ; 蛇头
 Term   = Factor *Add /    ; Sum    = SumOp  Term   ; 咬蛇尾
-	     Factor *Sub      ; Mul    = MulOp  Factor ; 咬蛇尾
+         Factor *Sub      ; Mul    = MulOp  Factor ; 咬蛇尾
 
 Factor = Num /            ; Factor = Num /
-	     "(" Expr ")"     ;          "(" Expr ")" 
+         "(" Expr ")"     ;          "(" Expr ")"
 
 Add    = "+" Term         ; SumOp   = "+" /
 Sub    = "-" Term         ;           "-"
 Mul    = "*" Factor       ; MulOp   = "*" /
 Quo    = "/" Factor       ;           "/"
-Num     = 1*(0-9)         ; Num     = 1*(0-9)
+Num    = 1*(0-9)          ; Num     = 1*(0-9)
 ```
 
 你应该发现了, 主要区别是: 运算符和后续的 Expr 的结合处理方式不同.
@@ -198,91 +198,91 @@ atom 可以看作只有一项的级联, group 需要选择两者之一. 那么 g
 
 ```go
 type Factor interface {
-	/**
-	每个 Factor 都有一个唯一规则 ID
-	Grammar 的 id 固定为 0.
-	Atom, Group 自动生成或者设定. 自动生成的 ID 为负数.
-	*/
-	Id() int
-	
-	/**
-	返回 Factor 的风格. 常量 KGrammar / KGroup / KFactor.
-	这里简单用 int 类型区分
-	*/
-	Kind() int
-	
-	/**
-	Mode 返回 Factor 所使用的匹配模式
-	Atom 总是返回常量 MConcatenation.
-	*/
-	Mode() int
-	
-	/**
-	匹配脚本
-	参数: Scanner 是个 rune 扫描器, Record 用于记录解析过程.
-	返回值:
-		ok     是否匹配成
-		end    是否终止匹配,  事实上由 Record 决定是否终止匹配
-	*/
-	Process(script Scanner, rec Record) (ok, end bool)
+    /**
+    每个 Factor 都有一个唯一规则 ID
+    Grammar 的 id 固定为 0.
+    Atom, Group 自动生成或者设定. 自动生成的 ID 为负数.
+    */
+    Id() int
+
+    /**
+    返回 Factor 的风格. 常量 KGrammar / KGroup / KFactor.
+    这里简单用 int 类型区分
+    */
+    Kind() int
+
+    /**
+    Mode 返回 Factor 所使用的匹配模式
+    Atom 总是返回常量 MConcatenation.
+    */
+    Mode() int
+
+    /**
+    匹配脚本
+    参数: Scanner 是个 rune 扫描器, Record 用于记录解析过程.
+    返回值:
+        ok     是否匹配成
+        end    是否终止匹配,  事实上由 Record 决定是否终止匹配
+    */
+    Process(script Scanner, rec Record) (ok, end bool)
 }
 
 // 语法接口也基于 Factor
 type Grammar interface {
-	Factor
-	/**
-	生成一个 Term 过渡对象.
-	初始重复 1 次, 1*1.
-	初始匹配模式为 MConcatenation.
-	参数 id 如果 <= 0 或者发生重复, 那么自动生成负数 id.
-	*/
-	Term(id int) Term
-	
-	// 为 Grammar.Process 设置最初规则.
-	Start(rule ...Factor) Grammar
-	
-	// 设置为 Concatenation 匹配模式
-	Concatenation() Grammar
-	
-	// 设置为 Alternation 匹配模式
-	Alternation() Grammar
+    Factor
+    /**
+    生成一个 Term 过渡对象.
+    初始重复 1 次, 1*1.
+    初始匹配模式为 MConcatenation.
+    参数 id 如果 <= 0 或者发生重复, 那么自动生成负数 id.
+    */
+    Term(id int) Term
+
+    // 为 Grammar.Process 设置最初规则.
+    Start(rule ...Factor) Grammar
+
+    // 设置为 Concatenation 匹配模式
+    Concatenation() Grammar
+
+    // 设置为 Alternation 匹配模式
+    Alternation() Grammar
 }
 
 /**
 term 是个中间件, 最终要转化为 Group/Factor
 */
 type Term interface {
-	Factor
-	// 为 Term 命名. 不检查名称唯一性.
-	Named(string) Term
-	
-	/**
-	设置 Repeat, 参数 a, b 对应 ABNF 的 repeat 定义 a*b.
-	如果 b < a, 把 b 作为 0 处理.
-	*/
-	Repeat(a, b uint) Term
-	
-	// 转为 Group
-	Group() Group
-	
-	// 由 Atom 转为 Factor
-	Atom(atom Atom) Factor
+    Factor
+    // 为 Term 命名. 不检查名称唯一性.
+    Named(string) Term
+
+    /**
+    设置 Repeat, 参数 a, b 对应 ABNF 的 repeat 定义 a*b.
+    如果 b < a, 把 b 作为 0 处理.
+    */
+    Repeat(a, b uint) Term
+
+    // 转为 Group
+    Group() Group
+
+    // 由 Atom 转为 Factor
+    Atom(atom Atom) Factor
 }
 
 /**
 Group 具有 Add 方法
 */
 type Group interface {
-	Factor
-	// 设置为 Concatenation 匹配模式
-	Concatenation() Group
-	// 设置为 Alternation 匹配模式
-	Alternation() Group
-	/**
-	添加一组规则.
-	如果没有通过检查返回 nil
-	*/
-	Add(rule ...Factor) Group
+    Factor
+    // 设置为 Concatenation 匹配模式
+    Concatenation() Group
+    // 设置为 Alternation 匹配模式
+    Alternation() Group
+    /**
+    添加一组规则.
+    如果没有通过检查返回 nil
+    */
+    Add(rule ...Factor) Group
 }
 ```
 
@@ -310,13 +310,13 @@ factor := g.Term().Named("Factor").Group().Alternation()
 mul := g.Term().Zero().Named("Mul").Group()
 
 sumOp := g.Term().Named("SumOp").Group().Add(
-	g.Term().Named("+").Atom(ADD, GenLiteral(`+`, nil)),
-	g.Term().Named("-").Atom(SUB, GenLiteral(`-`, nil)),
+    g.Term().Named("+").Atom(ADD, GenLiteral(`+`, nil)),
+    g.Term().Named("-").Atom(SUB, GenLiteral(`-`, nil)),
 ).Alternation()
 
 mulOp := g.Term().Named("MulOp").Group().Add(
-	g.Term().Named("*").Atom(MUL, GenLiteral(`*`, nil)),
-	g.Term().Named("/").Atom(QUO, GenLiteral(`/`, nil)),
+    g.Term().Named("*").Atom(MUL, GenLiteral(`*`, nil)),
+    g.Term().Named("/").Atom(QUO, GenLiteral(`/`, nil)),
 ).Alternation()
 
 nested := g.Term().Named("Nested").Group().Add(C, expr, D)
@@ -361,7 +361,7 @@ Term 的出现, 虽然逻辑上完整了, 代码写出来看上去很丑陋. 看
 这些只是基本的匹配规则逻辑. 毫无疑问, 文法解析是从一个字节一个字节进行的, 前文的实现也是这么思考的.
 现在换个角度考虑问题:
 
-	字符串也好, 叫做 Token 也罢, 真正要做的是判断一个 Token 是否满某个条件.
+    字符串也好, 叫做 Token 也罢, 真正要做的是判断一个 Token 是否满某个条件.
 
 我们知道解析的最小单位是 Token, 我们个 Token 加一个成员方法
 
@@ -371,13 +371,13 @@ func (token Token) Has(tok Token) bool
 
 // 这里截取部分 Token 定义
 const (
-	EOF Token = iota
-	Type // 分类标记
-	// 预定义类型
-	BYTE
-	STRING
-	UINT
-	INT
+    EOF Token = iota
+    Type // 分类标记
+    // 预定义类型
+    BYTE
+    STRING
+    UINT
+    INT
 )
 ```
 
@@ -393,66 +393,66 @@ const (
 type Flag int
 
 const (
-	Matched  Flag = 1 << iota // 匹配成功, 消耗掉一个 Token
-	Standing                  // 规则成立, 可以继续匹配 Token
-	Finished                  // 规则完整, 不再接受匹配 Token
+    Matched  Flag = 1 << iota // 匹配成功, 消耗掉一个 Token
+    Standing                  // 规则成立, 可以继续匹配 Token
+    Finished                  // 规则完整, 不再接受匹配 Token
 
-	// 下列标记由算法维护, Match 返回值不应该包含这些标记.
-	Handing // 正在进行处理中(Match), 可用来检查发生递归
-	Cloning // 正在进行克隆
-	Custom  // 通用标记位, 包括更高的位都由 Match 自定义用途,
+    // 下列标记由算法维护, Match 返回值不应该包含这些标记.
+    Handing // 正在进行处理中(Match), 可用来检查发生递归
+    Cloning // 正在进行克隆
+    Custom  // 通用标记位, 包括更高的位都由 Match 自定义用途,
 )
 
 type Rule interface {
-	// Match 返回匹配 tok 的状态标记. 实现必须遵守以下约定:
-	//
-	// 返回值为下列之一:
-	//
-	//	0
-	// 	Matched
-	// 	Matched|Standing
-	// 	Matched|Finished
-	// 	Finished
-	//
-	// 自动重置:
-	//
-	// 规则状态为 0, Finished, Matched|Finished 时自动重置, 可接受新的匹配.
-	//
-	// EOF 重置: 当最终状态为
-	//
-	//	Matched 最终状态是不确定完整匹配.
-	//	Matched|Standing 最终状态是完整匹配.
-	//
-	// 时使用 Match(EOF) 重置规则并返回 Finished, 其它状态不应该使用 EOF 来重置.
-	//
-	// 末尾完整测试:
-	//
-	// 类似 Seq(Term(XX),Option(YY),Option(ZZ)) 规则, 单个 XX 也是合法的,
-	// 但是由于 Option 的原因, 匹配单个 XX 的状态为 Matched,
-	// 因此再匹配一个不可能出现的 Token, 可以测试规则是否完整.
-	//
-	Match(tok Token) Flag
+    // Match 返回匹配 tok 的状态标记. 实现必须遵守以下约定:
+    //
+    // 返回值为下列之一:
+    //
+    //  0
+    //  Matched
+    //  Matched|Standing
+    //  Matched|Finished
+    //  Finished
+    //
+    // 自动重置:
+    //
+    // 规则状态为 0, Finished, Matched|Finished 时自动重置, 可接受新的匹配.
+    //
+    // EOF 重置: 当最终状态为
+    //
+    //  Matched 最终状态是不确定完整匹配.
+    //  Matched|Standing 最终状态是完整匹配.
+    //
+    // 时使用 Match(EOF) 重置规则并返回 Finished, 其它状态不应该使用 EOF 来重置.
+    //
+    // 末尾完整测试:
+    //
+    // 类似 Seq(Term(XX),Option(YY),Option(ZZ)) 规则, 单个 XX 也是合法的,
+    // 但是由于 Option 的原因, 匹配单个 XX 的状态为 Matched,
+    // 因此再匹配一个不可能出现的 Token, 可以测试规则是否完整.
+    //
+    Match(tok Token) Flag
 
-	// Bind 应只在递归嵌套规则变量时使用, 先声明规则变量后绑定规则.
-	// 其他情况都不应该使用 Bind.
-	Bind(Rule)
+    // Bind 应只在递归嵌套规则变量时使用, 先声明规则变量后绑定规则.
+    // 其他情况都不应该使用 Bind.
+    Bind(Rule)
 
-	// Clone 返回克隆规则, 这是深度克隆, 但不含递归.
-	// 递归规则在 Match 中通过判断 Handing 标记及时建立的.
-	Clone() Rule
+    // Clone 返回克隆规则, 这是深度克隆, 但不含递归.
+    // 递归规则在 Match 中通过判断 Handing 标记及时建立的.
+    Clone() Rule
 
-	// IsOption 返回该规则是否为可选规则.
-	// 事实上除了 Option 是明确的可选规则外, 其它组合可能产生事实上的可选规则.
-	IsOption() bool
+    // IsOption 返回该规则是否为可选规则.
+    // 事实上除了 Option 是明确的可选规则外, 其它组合可能产生事实上的可选规则.
+    IsOption() bool
 }
 
 // Term 用来包装 Token
 
 // Term 产生任一 Token 匹配规则. Match 方法返回值为:
 //
-//	0
-//	Matched | Finished
-//	Finished	当 EOF 重置或者 tok == nil
+//  0
+//  Matched | Finished
+//  Finished    当 EOF 重置或者 tok == nil
 //
 func Term(tok ...Token) Rule
 func Option(rule Rule) Rule
@@ -469,7 +469,7 @@ func More(rule, sep Rule) Rule
 func Any(rule ...Rule) Rule
 
 // Seq 产生顺序匹配规则
-func Seq(rule ...Rule) Rule 
+func Seq(rule ...Rule) Rule
 ```
 
 你可能注意到其中没有 Zero 规则, 因为不需要它, Flag 的 Finished 隐含的兼容了 Zero 规则.
@@ -477,9 +477,75 @@ func Seq(rule ...Rule) Rule
 
 **先写这么多, 就 5 个规则, 写多了反而添乱**
 
+# ABNFA
+
+周知生成 AST 是非常必要的, 这为后续的分析处理提供了基础.
+上节中的方案至少有以下几个问题没有解决
+
+1. 运算符优先级
+2. 生成 AST
+
+笔者很幸运的找到通过扩展 ABNF 的语法直接生成 AST 的方案, 命名为 [ABNFA][].
+
+扩展: ABNFA 的引用写法称作 Action
+
+    ref-method-key-type-more
+
+语义:
+
+    当 ref    匹配的后生成 type 类型节点
+    用 method 处理生成的节点, 比如描述注释, 分组, 数组, 二元运算等
+    生成的节点保存在父节点的 key 属性中
+    more 留给插件使用
+
+四则运算的 ABNFA 描述: 留意 '-' 开始的部分, 详细语义参见 [ABNFA][]
+
+```abnf
+Exp     = (Num- / group-alone)          ; (Num节点 | 独立的分组) [可选二元运算]
+          [Binary-infix-left-]          ; 前面生成的节点保存到二元节点的 left
+
+group   = "(" Exp ")"                   ; 圆括号分组
+Binary  = operator-binary-op Exp--right ; 由二元运算符 op 和 right(Exp) 属性组成
+
+operator= ("+" / "-") /                 ; 二元运算符约定写法
+          ("*" / "/")                   ; 优先级由低到高
+
+Num     = DIGITS-leaf                   ; 由 DIGITS 生成的叶子节点
+DIGITS  = 1*(%x30-39)                   ; [1-9]+
+```
+
+文本 `1-2*3` 经匹配后生成这样的 ASON 字符串
+
+```ASON
+Binary[Num~left"1",~op"-",Binary~right[Num~left"2",~op"*",Num~right"3"]]
+```
+
+用 JavaScript 描述生成 AST 的代码可以是:
+
+```js
+let ast = Binary({
+    left: Num("1"),
+    op: "-",
+    right: Binary({
+        left: Num("2"),
+        op:"*",
+        right: Num("3")
+    })
+})
+```
+
+提示:
+
+    ASON 是生成 AST 步骤的序列化描述
+    二元运算节点必须使用 'infix' 方法, 而其运算符必须使用 'binary' 方法
+    通常 AST 中不需要包含分隔符号(空格之类), 分组符号(表达式中的括号)等信息
+    工具链生成可序列化数据, 其它语言很容易实现对接, 甚至生成对应代码
+
+
 [1]: http://zh.wikipedia.org/wiki/%E6%89%A9%E5%B1%95%E5%B7%B4%E7%A7%91%E6%96%AF%E8%8C%83%E5%BC%8F
 [2]: https://www.google.com.hk/search?q=BNF%20EBNF
 [3]: http://tools.ietf.org/html/rfc5234
 [4]: http://zh.wikipedia.org/wiki/%E5%B7%A6%E9%81%9E%E6%AD%B8
 [Zxx]: https://github.com/ZxxLang/zxx
 [zxx abnf]: https://github.com/ZxxLang/zxx/tree/master/abnf
+[ABNFA]: https://github.com/ZxxLang/abnfa
